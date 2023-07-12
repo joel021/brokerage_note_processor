@@ -26,5 +26,5 @@ jobs:
 
       - name: Unit Tests
         run: |
-          cd back-end
+          cd rest_api_service
           mvn clean package

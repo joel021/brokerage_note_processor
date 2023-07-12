@@ -53,16 +53,16 @@ jobs:
     - name: compile and test to export
       run: |
         export DB_PASSWORD=root
-        cd back-end
+        cd rest_api_service
         mvn clean package -Pprod
         
     - name: Rename the artifact
-      run: cp back-end/target/stockprice.jar stockprice-${{ github.sha }}.jar
+      run: cp rest_api_service/target/stockprice.jar stockprice-${{ github.sha }}.jar
 
     - name: Save the artifact
       uses: actions/upload-artifact@master
       with:
-        name: stockprice-back-end
+        name: rest_api_service
         path: stockprice-${{ github.sha }}.jar
 
   
