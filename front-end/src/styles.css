@@ -1,0 +1,65 @@
+body {
+    zoom: 80%;
+}
+.nav-top-fixed {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.bg-dark{
+    background-color: #00122A !important;
+}
+
+.dropdown-menu-dark {
+    background-color: #23324c;
+}
+
+.primary-background {
+    background-color: #00122A;
+}
+
+.second-background {
+    background-color: #23324c;
+}
+
+.third-background {
+    background-color: #42506c;
+}
+
+.complementary {
+    background-color: #2a1800;
+}
+
+.analogous {
+    background-color: #00272a;
+}
+
+.analogous2 {
+    background-color: #03002a;
+}
+
+.tradiatic {
+    background-color: #18002a;
+}
+
+.tradiatic2 {
+    background-color: #2a0012;
+}
+
+.toast{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+}
+.carousel-caption {
+    color: #ffffffbf;
+    background-color: #23324cf2;
+    -webkit-box-shadow: -1px 13px 98px 26px rgba(0,0,0,0.75) !important;
+    -moz-box-shadow: -1px 13px 98px 26px rgba(0,0,0,0.75) !important;
+    box-shadow: -1px 13px 98px 26px rgba(0,0,0,0.75) !important;
+}

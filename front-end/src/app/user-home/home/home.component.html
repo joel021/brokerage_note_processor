@@ -1,0 +1,58 @@
+<left-menu>
+    <div class="container-fluid">
+        <div class="container" style="padding-top: 6em;">
+            <h2 style="margin-bottom: 1em;">Funcionalidades</h2>
+        
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="card">
+                        <!-- img class="card-img-top" src="/assets/screenshots/test-img.png" alt="Card image cap" -->
+                        <div class="card-body">
+                            <h5 class="card-title">Operações por PDF</h5>
+                            <p class="card-text">Envie suas notas de corretagens mensais e deixe que o serviço faça o resto. 
+                                Você pode enviar uma ou várias notas de corretagem.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Edite suas operações</h5>
+                            <p class="card-text">Se você é mais detalhista, verifique todas as suas operações. Você pode 
+                                inserir, remover ou editar.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Veja a sua performance nos gráficos</h5>
+                            <p class="card-text">Você tem gráficos de lucro/prejuízo mensal.
+                                As possibilidades são gráficos no contexto geral, por tipo de mercado e por tipo de operação. A
+                                ideia é que você possa pagar sua darf 
+                                ou fazer a declaração anual apenas olhando esses gráficos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <hr />
+            <h2 style="margin-bottom: 1em;">Algumas telas</h2>
+        
+            <div class="row">
+                <ngb-carousel>
+                    <ng-template ngbSlide *ngFor="let image of images">
+                      <div class="wrapper">
+                        <img [src]="image.src" alt="Random first slide">
+                      </div>
+                      <div class="carousel-caption shadow-lg p-3 mb-5 rounded">
+                        <h3>{{ image.title }}</h3>
+                        <p>{{ image.short }}</p>
+                      </div>
+                    </ng-template>
+                  </ngb-carousel>
+            </div>
+            <p>*Os valores apresentados são fictícios.</p>
+        </div>
+    </div>
+</left-menu>

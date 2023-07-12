@@ -1,0 +1,98 @@
+<div class="auth-wrapper d-flex flex-column no-block justify-content-center align-items-center bg-light"
+    style="margin-top: 2em;">
+    <div class="auth-box bg-light border-top border-secondary">
+        <div>
+            <!-- Form -->
+            <div class="card" style="padding:3em;">
+                <h2 class="text-center p-t-20 p-b-20" style="margin-bottom: 1em;">Registrar-se</h2>
+                <form class="form-horizontal m-t-20" [formGroup]="registrationForm">
+                    <div class="row p-b-30">
+                        <div class="col-12">
+
+                            <!-- email -->
+                            <div class="input-group mb-3">
+
+                                <input type="text" formControlName="name"
+                                    [ngClass]="{ 'is-invalid': submitted && controls.name.errors }"
+                                    class="form-control form-control-lg" placeholder="Seu nome ou apelido"
+                                    aria-label="Nome" aria-describedby="basic-addon1" required id="inputName">
+                                <div *ngIf="submitted && controls.email.errors" class="invalid-feedback">
+                                    <div *ngIf="controls.name.errors.required">Forneça um nome ou apelido.</div>
+                                    <div *ngIf="controls.name.errors.name">Nome ou apelido inválido.</div>
+                                </div>
+                            </div>
+
+                            <!-- email -->
+                            <div class="input-group mb-3">
+
+                                <input type="text" formControlName="email"
+                                    [ngClass]="{ 'is-invalid': submitted && controls.email.errors }"
+                                    class="form-control form-control-lg" placeholder="E-mail" aria-label="E-mail"
+                                    aria-describedby="basic-addon1" required id="inputEmail">
+                                <div *ngIf="submitted && controls.email.errors" class="invalid-feedback">
+                                    <div *ngIf="controls.email.errors.required">É necessário um email</div>
+                                    <div *ngIf="controls.email.errors.email">O email é inválido</div>
+                                </div>
+                            </div>
+                            <!-- password -->
+                            <div class="input-group mb-3">
+
+                                <input type="password" formControlName="password"
+                                    [ngClass]="{ 'is-invalid': submitted && controls.password.errors }"
+                                    class="form-control form-control-lg" placeholder="Password" aria-label="Password"
+                                    aria-describedby="basic-addon1" required id="inputPass">
+                                <div *ngIf="submitted && controls.password.errors" class="invalid-feedback">
+                                    <div *ngIf="controls.password.errors.required">Defina uma senha</div>
+                                    <div
+                                        *ngIf="controls.passwordConfirmation.errors.minlength || controls.passwordConfirmation.errors.maxlength">
+                                        A senha não é forte o suficiente ou não é válida.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- password confirmation-->
+                            <div class="input-group mb-3">
+
+                                <input type="password" formControlName="passwordConfirmation"
+                                    [ngClass]="{ 'is-invalid': submitted && controls.passwordConfirmation.errors }"
+                                    class="form-control form-control-lg" placeholder="Confirm the password"
+                                    aria-label="Passoword confirmation" aria-describedby="basic-addon1" required
+                                    id="inputPassConf">
+                                <div *ngIf="submitted && controls.passwordConfirmation.errors" class="invalid-feedback">
+                                    <div *ngIf="controls.passwordConfirmation.errors.required">É necessário confirmar a
+                                        senha.</div>
+                                    <div *ngIf="controls.passwordConfirmation.errors.passwordMismatch">As senhas não
+                                        conferem.</div>
+                                </div>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <p>Ao registrar-se, você concorda com as políticas de  
+                                    <a href="/privacy-policy">privacidade</a>.
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="p-t-20">
+                                    <button class="btn btn-primary" (click)="onSubmit()" id="buttonRegistre"
+                                        style="width: 100%;">Criar uma
+                                        conta</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <div>
+                        <button class="btn btn-link" routerLink="/signin">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

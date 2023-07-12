@@ -1,0 +1,52 @@
+@media (min-width: 1024px){
+    .parent-component {
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .left-component {
+        position: fixed;
+        overflow-y: hidden;
+        top: 0;
+        bottom: 0;
+        width: 16%;
+    }
+
+    .right-content-component {
+        width: 85%;
+        margin-left: 15%;
+    }
+
+    .top-menu {
+        display: none;
+    }
+}
+
+@media (max-width: 1023px){
+    .left-component {
+        display: none;
+    }
+    .right-content-component {
+        width: 100%;
+        margin: 1em;
+    }
+
+    .top-menu {
+        display: block;
+    }
+}
+
+#mainNavBar{
+    padding: 20px;
+}
+
+.nav-link {
+    color: #e8f0ff;
+}
+.px-3 {
+    padding-right: 0;
+    padding-left: 0;
+}
+.menu-content-up-footer{
+    margin-bottom: 300px;
+}

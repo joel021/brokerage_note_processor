@@ -1,0 +1,7 @@
+.clickable:hover {
+    background: #80a0c030;
+}
+
+.clickable:active {
+    background: #80a0c075;
+}

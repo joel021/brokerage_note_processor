@@ -1,0 +1,98 @@
+<left-menu>
+    <div id="userform">
+
+        <div class="text-center p-t-20 p-b-20" style="margin-top: 3em;">
+            <h1>Atualizar seus dados</h1>
+            <div *ngIf="message" class="alert alert-info" role="alert">
+                {{ message }}
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="card" style="padding:3em;">
+
+            <form class="form-horizontal m-t-20" [formGroup]="userForm" id="form-login">
+                <div class="row p-b-0">
+                    <div class="col-12">
+
+                        <!-- nome -->
+                        <div class="input-group mb-3">
+
+                            <input type="text" formControlName="name"
+                                [ngClass]="{ 'is-invalid': submitted && controls.name.errors }"
+                                class="form-control form-control-lg" placeholder="Nome" aria-label="Nome"
+                                aria-describedby="basic-addon1" required="" id="nameInput" />
+
+                            <div *ngIf="submitted && controls.name.errors" class="invalid-feedback">
+                                <div *ngIf="controls.name.errors.required">Nome é um campo obrigatório</div>
+                            </div>
+                        </div>
+
+                        <!-- e-mail-->
+                        <div class="input-group mb-3">
+
+                            <input type="text" formControlName="email"
+                                [ngClass]="{ 'is-invalid': submitted && controls.email.errors }"
+                                class="form-control form-control-lg" placeholder="E-mail" aria-label="E-mail"
+                                aria-describedby="basic-addon1" required="" id="emailInput" />
+
+                            <div *ngIf="submitted && controls.email.errors" class="invalid-feedback">
+                                <div *ngIf="controls.email.errors.required">E-mail</div>
+                            </div>
+                        </div>
+                        <!-- Atualizar senha-->
+                        <div class="form-group row align-items-center white-font">
+                            <label class="col-4 white-label right-label">Atualizar a senha?</label>
+                            <div class="col-8 row align-items-center radios">
+                                <div class="col-6 custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidationYes"
+                                        name="updatePass" [value]="true" formControlName="updatePass">
+                                    <label class="custom-control-label" for="customControlValidationYes">Sim</label>
+                                </div>
+                                <div class="col-6 custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="customControlValidationNo"
+                                        name="updatePass" [value]="false" formControlName="updatePass" checked>
+                                    <label class="custom-control-label" for="customControlValidationNo">Não</label>
+                                </div>
+                                <div *ngIf="submitted && controls.updatePass.errors" class="invalid-feedback">
+                                    <div *ngIf="controls.updatePass.errors.required">É necessário informar se deseja
+                                        atualizar a senha.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="controls.updatePass.value" class="form-group row" data-select2-id="12">
+                            <!-- password -->
+                            <div class="input-group mb-3">
+
+                                <input type="password" formControlName="password"
+                                    [ngClass]="{ 'is-invalid': submitted && controls.password.errors }"
+                                    class="form-control form-control-lg" placeholder="Nova Senha" aria-label="Senha"
+                                    aria-describedby="basic-addon1" required="" id="passInput" autocomplete="false">
+                            </div>
+                            <!-- password confirmation -->
+                            <div class="input-group mb-3">
+
+                                <input type="password" formControlName="passwordConfirmation"
+                                    [ngClass]="{ 'is-invalid': submitted && controls.passwordConfirmation.errors }"
+                                    class="form-control form-control-lg" placeholder="Confirmação da senha"
+                                    aria-label="Confirmação da senha" aria-describedby="basic-addon1" required=""
+                                    id="confirmationPassInput" autocomplete="false">
+                                <div *ngIf="submitted && controls.passwordConfirmation" class="invalid-feedback">
+                                    As senhas devem ser iguais
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="error" class="alert alert-danger mt-0 mb-3">{{error}}</div>
+
+                <div class="col-12 flex-column register">
+                    <button type="submit" class="btn btn-primary" (click)="onSubmit()">{{ loading ?
+                        'carregando...' : 'Salvar' }}</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</left-menu>

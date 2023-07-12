@@ -1,0 +1,11 @@
+.form-control-lg {
+    font-size: 1rem;
+    border-radius: .5rem;
+    margin-top: 5px;
+    padding: 6px;
+    min-height: 0px;
+}
+button.btn.btn-outline-success {
+    margin-top: 16px;
+    margin-bottom: 20px;
+}

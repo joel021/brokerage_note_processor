@@ -1,0 +1,23 @@
+<button [disabled]="disabled" (click)="open(modal_dialog)" class="btn btn-light" type="button" data-toggle="modal" >
+    <i class="{{buttonClass}}"></i> {{triggerText}}
+</button>
+
+<ng-template #modal_dialog let-modal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{title}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{body}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="modal.dismiss('Cross click')" class="btn btn-secondary" data-dismiss="modal">{{notAcceptValue}}</button>
+                <button type="button" (click)="modal.close('Save click')" class="btn btn-primary">{{acceptValue}}</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

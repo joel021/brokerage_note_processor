@@ -1,0 +1,11 @@
+<left-menu>
+    <div class="container">
+        <br />
+        <br />
+        <h3>Erros associados à nota de corretagem</h3>
+        <div *ngFor="let extractionError of extractionErrors" class="alert alert-warning" role="alert">
+            {{extractionError.error}}
+        </div>
+
+    </div>
+</left-menu>

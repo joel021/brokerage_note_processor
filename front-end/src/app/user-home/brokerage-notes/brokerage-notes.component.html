@@ -1,0 +1,106 @@
+<left-menu>
+    <div *ngIf="brokerageFiles" class="container">
+        
+        <div class="alert alert-success" role="alert">
+            Ir para <i class="bi bi-arrow-right"> <a href="/reports"> <b>relatório</b></a></i>
+        </div>
+
+        <div *ngIf="errors.length > 0" class="alert alert-warning" role="alert">
+            <i *ngFor="let error of errors"> {{error}} <br /></i>
+        </div>
+
+        <div *ngIf="completed" class="alert alert-success" role="alert">
+            Alterações feitas
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">nome</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">senha</th>
+                    <th scope="col">Corretora</th>
+                    <th scope="col">Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let file of brokerageFiles;let i=index;">
+                    <td >
+                        <button *ngIf="extractionErrorsQuantity[file.fileId]" (click)="errorDetails(file.fileId)" class="btn btn-light">
+                            <i class="bi bi-exclamation-circle error"> {{extractionErrorsQuantity[file.fileId]}} </i>
+                        </button>
+                        {{file.name}}
+                    </td> 
+                    <td>
+                        <i style="color: #dc881b" *ngIf="!file.extractedAt && !file.deletedAt" class="bi bi-stack"> na fila</i>
+                        <b style="color:red"><i *ngIf="file.deletedAt" class="bi bi-x-octagon"> deletado</i></b>
+                        <i style="color: #00991d" *ngIf="file.extractedAt;">
+                            processado em {{getDate(file.extractedAt).day}}/{{getDate(file.extractedAt).month}}/{{getDate(file.extractedAt).year}}
+                            {{getDate(file.extractedAt).hours}}:{{getDate(file.extractedAt).minutes}}
+                        </i>
+                        <button [disabled]="loading" (click)="sendFileToProcess(i)"
+                            *ngIf="difDate(file.updatedAt) > 2 && !file.deletedAt && extractionErrorsQuantity[file.fileId]" class="btn btn-light"
+                            ><i class="bi bi-arrow-repeat">Tentar novamente</i></button>
+                    </td>
+                    <td>
+                        <input (change)="onEdit(i)" style="width:50px; border:0" type="text" id="password_{{i}}"
+                            value="{{file.password}}" />
+                    </td>
+                    <td>
+                        <input (change)="onEdit(i)" style="width:150px; border:0" type="text" id="stockBroker_{{i}}"
+                            value="{{file.stockBroker}}" />
+                    </td>
+                    <td>
+                        <modal-dialog *ngIf="!file.deletedAt" [disabled]="loading" [buttonClass]="'bi bi-trash'"
+                            [triggerText]="'Apagar arquivo'" [title]="'Apagar nota de corretagem'"
+                            [body]="'Apagar '+file.name+'?'" [acceptValue]="'Sim'" [notAcceptValue]="'Cancelar'"
+                            [method]="'deleteFile'" [context]="this" [callbackArg]="i"></modal-dialog>
+
+                        <modal-dialog [disabled]="loading" [buttonClass]="'bi bi-trash'"
+                            [triggerText]="'Apagar operações'" [title]="'Apagar as operações associadas'"
+                            [body]="'Apagar todas as operações relacionadas a esta nota de corretagem?'"
+                            [acceptValue]="'Apagar todas'" [notAcceptValue]="'Cancelar'" [method]="'deleteOperations'"
+                            [context]="this" [callbackArg]="i"></modal-dialog>
+
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <div class="container" style="margin:20px">
+            <button [disabled]="filesEdited == null" (click)="saveEditions()" type="button"
+                class="btn btn-success">Salvar
+                alterações</button>
+        </div>
+
+        <div class="container" style="margin:20px">
+            Quantidade: <input id="page_quatity" type="number" value="{{pageQuantity}}" style="width:50px"
+                    (change)="updateQuantity()" /> de {{quantity}}
+
+            <nav aria-label="Page navigation example" style="margin-top: 10px">
+
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button [disabled]="page == 0 || loading" (click)="prevPage()" class="page-link"
+                            aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Página anterior</span>
+                        </button>
+                    </li>
+                    <li class="page-item" style="margin-left:20px;margin-right: 20px;"> {{page}} </li>
+                    <li class="page-item" style="margin-left:20px;margin-right: 20px;"> de {{pagesQuantity}} </li>
+                    <li class="page-item">
+                        <button [disabled]="!hasNext||loading" (click)="nextPage()" class="page-link"
+                            aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Próxima página</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</left-menu>

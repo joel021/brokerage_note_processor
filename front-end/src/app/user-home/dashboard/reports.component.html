@@ -1,0 +1,30 @@
+<left-menu>
+    <div class="container">
+        <div class="row" style="margin-top: 2em;margin-bottom: 2em;">
+            <div *ngIf="profitByActiveChart.data"  class="col-md-4">
+                <app-table-chart [chart]="profitByActiveChart" [context]="this"></app-table-chart>
+            </div>
+            <div *ngIf="profitByMonthChart.data" class="col-md-4">
+                <app-bar-chart [chart]="profitByMonthChart"></app-bar-chart>
+                <i>Lucro ou prejuízo total por mês do ano. <b>ano</b>/<b>mês</b></i>
+            </div>
+            <div *ngIf="swingCashProfitByMonthChart.data" class="col-md-4">
+                <app-bar-chart [chart]="swingCashProfitByMonthChart"></app-bar-chart>
+                <i>Lucro ou prejuízo, no mercado à VISTA, Swing Trade, por mês.</i>
+            </div>
+            <div *ngIf="swingOptionProfitByMonthChart.data" class="col-md-4">
+                <app-bar-chart [chart]="swingOptionProfitByMonthChart"></app-bar-chart>
+                <i>Lucro ou prejuízo, no mercado de Opções, Swing Trade, por mês.</i>
+            </div>
+
+            <div *ngIf="dayCashProfitByMonthChart.data" class="col-md-4">
+                <app-bar-chart [chart]="dayCashProfitByMonthChart"></app-bar-chart>
+                <i>Lucro ou prejuízo, no mercado à vista, Day Trade, por mês.</i>
+            </div>
+            <div *ngIf="dayFutureProfitByMonthChart.data" class="col-md-4">
+                <app-bar-chart [chart]="dayFutureProfitByMonthChart"></app-bar-chart>
+                <i>Lucro ou prejuízo, no mercado Futuro, Day Trade, por mês.</i>
+            </div>
+        </div>
+    </div>
+</left-menu>

@@ -1,0 +1,10 @@
+__pycache__
+.idea
+*\.idea\
+venv
+.xml
+.idea
+**/__pycache__
+**.idea
+config.py
+./data/logging.csv

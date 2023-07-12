@@ -1,0 +1,11 @@
+[Unit]
+Description=PDF Extractor
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/user/pdf_reports_service
+Restart=always
+ExecStart=/home/user/pdf_reports_service/venv/bin/python /home/user/pdf_reports_service/main.py
+
+[Install]

@@ -1,0 +1,52 @@
+<div class="auth-wrapper d-flex flex-column no-block justify-content-center align-items-center bg-light">
+  <div class="auth-box bg-light border-top border-secondary">
+        <div id="recoverform">
+        
+            <div class="text-center p-t-20 p-b-20" style="margin-top: 3em;">
+                <h1>Recuperar conta</h1>
+            </div>
+            <!-- Form -->
+            <div class="card" style="padding:3em;">
+                
+                <form class="form-horizontal m-t-20" [formGroup]="recoverForm" id="form-recover">
+                <div class="row p-b-0">
+                    <div class="col-12">
+                        <!-- e-mail-->
+                        <div class="input-group mb-3">
+                            
+                            <input type="text" formControlName="email"
+                                [ngClass]="{ 'is-invalid': submitted && controls.email.errors }"
+                                class="form-control form-control-lg" placeholder="E-mail"
+                                aria-label="E-mail" aria-describedby="basic-addon1" required="" id="emailInput" />
+                            
+                            <div *ngIf="submitted && controls.email.errors" class="invalid-feedback">
+                                <div *ngIf="controls.email.errors.required">E-mail</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div *ngIf="error" class="alert alert-danger mt-0 mb-3">{{error}}</div>
+                
+                <div class="col-12 flex-column register">
+                    <button type="button" type="submit" class="btn btn-primary" [disabled]="loading"
+                    (click)="onSubmit()">{{ loading ? 'Loading...' : 'Submit' }}</button>
+                </div>
+
+                </form>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="p-t-20">
+                        <button [disabled]="loading" form="form-login" class="btn btn-light" 
+                        (click)="signupUser()">Criar conta</button>
+                    </div>
+                    <div class="p-t-20">
+                        <button [disabled]="loading" form="form-login" class="btn btn-light" 
+                        (click)="signinUser()">Login</button>
+                    </div>
+                </div>
+            </div>
+      </div>
+  </div>
+</div>

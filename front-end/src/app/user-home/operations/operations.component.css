@@ -1,0 +1,33 @@
+.form-control-lg {
+    font-size: 1rem;
+    border-radius: .5rem;
+    margin-top: 5px;
+    padding: 6px;
+    min-height: 0px;
+}
+button.btn.btn-outline-success {
+    margin-top: 16px;
+    margin-bottom: 20px;
+}
+
+.input-table {
+    margin: 0px !important;
+    border: 0;
+}
+
+.input-table-small {
+    max-width: 90px;
+}
+
+.input-table-large {
+    min-width: 160px;
+}
+
+.input-table-median {
+    min-width: 130px;
+}
+
+td {
+    padding-left: 1px;
+    padding-right: 1px;
+}

@@ -1,0 +1,148 @@
+<left-menu>
+  <div class="container">
+    <h3>Gerenciar suas operações</h3>
+    <div *ngIf="!loading" class="alert alert-success" role="alert">
+      <i class="bi bi-arrow-right"> <a href="/reports"> <b>Ir para dashboard</b></a></i>
+    </div>
+
+    <div *ngIf="errors.length > 0" class="alert alert-danger" role="alert">
+      <i *ngFor="let error of errors"> {{error}}</i>
+    </div>
+
+    <div *ngIf="loading">
+      <div class="spinner-grow text-primary" role="status">
+      </div>
+      <div class="spinner-grow text-secondary" role="status">
+      </div>
+      <div class="spinner-grow text-success" role="status">
+      </div>
+      <div class="spinner-grow text-danger" role="status">
+      </div>
+      <div class="spinner-grow text-warning" role="status">
+      </div>
+      <div class="spinner-grow text-info" role="status">
+      </div>
+      <div class="spinner-grow text-light" role="status">
+      </div>
+      <div class="spinner-grow text-dark" role="status">
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"><input (change)="setCheckedToAll()" id="check_all" class="form-check-input" type="checkbox">
+          </th>
+          <th scope="col">Data</th>
+          <th scope="col">Fechamento</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Quantidade</th>
+          <th scope="col">Valor líquido</th>
+          <th scope="col">Carteira</th>
+          <th scope="col">Mercado</th>
+          <th scope="col">Operação</th>
+          <th scope="col">Tipo ativo</th>
+          <th scope="col"><button (click)="addOperation()" class="btn btn-light"><i class="bi bi-plus"></i></button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let operation of operations;let i=index;"
+          [ngStyle]="operation.deleted ? {'background-color': '#bf575733'} : (operation.editedSuccess) ? {'background-color': '#007d44bf'} : {'background-color': 'white'}">
+          <td><input (change)="setChecked(i)" id="check_{{i}}" class="form-check-input" type="checkbox"
+              [checked]="operation.checked"></td>
+          <td>
+            <input (change)="editAttribute('date',i)" id="date_{{i}}" type="date" class="input-table input-table-median"
+              data-date-format="DD/MM/YYYY" value="{{operation.date}}" />
+          </td>
+          <td><input (change)="editAttribute('closeMonth',i)" id="closeMonth_{{i}}" type="text"
+             placeholder="yyyy-mm"
+              class="input-table input-table-small"
+              value="{{ (operation.wallet == CLOSED) ? operation.closeMonth : ''}}" /></td>
+          <td>
+            <input (change)="editAttribute('name',i)" id="name_{{i}}" class="input-table input-table-small" type="text"
+              value="{{operation.name}}" />
+          </td>
+          <td><input (change)="editAttribute('qtd',i)" id="qtd_{{i}}" class="input-table input-table-small"
+              type="number" value="{{operation.qtd}}" /> </td>
+          <td class="input-table-median">R$<input (change)="editAttribute('value',i)" id="value_{{i}}"
+              class="input-table input-table-small" type="text"
+              value='{{operation.value.toString().replace(".",",")}}' /></td>
+          <td><select (change)="editAttribute('wallet',i)" id="wallet_{{i}}" class="input-table input-table-median"
+              type="text">
+              <option value="{{BOUGHT}}" [selected]="operation.wallet == BOUGHT">COMPRADO</option>
+              <option value="{{SOLD}}" [selected]="operation.wallet == SOLD">VENDIDO</option>
+              <option value="{{CLOSED}}" [selected]="operation.wallet == CLOSED">FECHADA</option>
+            </select>
+          </td>
+          <td>
+            <select (change)="editAttribute('typeMarket',i)" id="typeMarket_{{i}}" class="input-table input-table-small"
+              type="text">
+              <option value="{{CASH_MARKET}}" [selected]="operation.typeMarket == CASH_MARKET">VISTA</option>
+              <option value="{{OPTION_MARKET}}" [selected]="operation.typeMarket == OPTION_MARKET">OPÇÕES</option>
+              <option value="{{FUTURE_MARKET}}" [selected]="operation.typeMarket == FUTURE_MARKET">FUTURO</option>
+            </select>
+          </td>
+          <td>
+            <select (change)="editAttribute('typeOp',i)" id="typeOp_{{i}}" class="input-table input-table-large"
+              type="text">
+              <option value="{{SWINGTRADE}}" [selected]="operation.typeOp == SWINGTRADE">OPERAÇÕES COMUNS (SWING)
+              </option>
+              <option value="{{DAYTRADE}}" [selected]="operation.typeOp == DAYTRADE">DAY TRADE</option>
+            </select>
+          </td>
+
+          <td>
+            <select (change)="editAttribute('type',i)" id="type_{{i}}" class="input-table input-table-large"
+              type="text">
+              <option value="{{ACTIVE}}" [selected]="operation.type == ACTIVE">Ativo</option>
+              <option value="{{OPTION}}" [selected]="operation.typeOp == OPTION">Opção</option>
+            </select>
+          </td>
+
+          <td>
+            <button *ngIf="!operation.operationId" (click)="cancelAddOperation(i)" class="btn btn-light"><i
+                style="color:orange" class="bi bi-x-lg"></i></button>
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+    <div *ngIf="error" class="alert alert-danger mt-0 mb-3">{{error}}</div>
+
+    <button class="btn btn-outline-success" [disabled]="loading || !edited" (click)="saveEditions()">
+      <i class="bi bi-pencil">{{ (loading) ? 'Carregando...' : 'Salvar alterações' }}</i>
+    </button>
+    <modal-dialog [disabled]="loading" [buttonClass]="'bi bi-trash'" [triggerText]="'Apagar selecionadas'"
+      [title]="'Apagar operações selecionadas'"
+      [body]="'Tem certeza que deseja apagar todas as operações selecionadas?'" [acceptValue]="'Sim'"
+      [notAcceptValue]="'Cancelar'" [method]="'deleteChecked'" [context]="this" [callbackArg]="null"></modal-dialog>
+
+  </div>
+  <div class="container" style="margin:20px">
+    Quantidade: <input id="page_quatity" type="number" value="{{pageQuantity}}" style="width:50px"
+      (change)="updateQuantity()" /> de {{quantity}}
+
+    <nav aria-label="Navegação entre as páginas" style="margin-top: 10px">
+
+      <ul class="pagination">
+        <li class="page-item">
+          <button [disabled]="page == 0 || loading" (click)="prevPage()" class="page-link" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Mais recentes</span>
+          </button>
+        </li>
+        <li class="page-item" style="margin-left:20px;margin-right: 20px;"> {{page}} </li>
+        <li class="page-item" style="margin-left:20px;margin-right: 20px;"> de {{pagesQuantity}} </li>
+        <li class="page-item">
+          <button [disabled]="!hasNext||loading" (click)="nextPage()" class="page-link" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Mais antigas</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</left-menu>

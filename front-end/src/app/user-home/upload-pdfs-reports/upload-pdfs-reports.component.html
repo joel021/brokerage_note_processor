@@ -1,0 +1,75 @@
+<left-menu>
+  <div class="container">
+    <h3>Enviar notas de corretagem</h3>
+    <div *ngIf="completed" class="alert alert-success" role="alert">
+      Completo. <i class="bi bi-arrow-right"> <a href="/brokerage-notes"> <b>gerenciar notas de corretagem</b></a></i>
+    </div>
+
+    <div class="card" style="padding:3em;">
+
+      <div class="mb-3">
+        <label for="formFileSm" class="form-label">Selecionar notas de corretagem</label>
+        <input accept="{{acceptedFiles}}" multiple (change)="selectFiles($event)" class="form-control form-control-sm"
+          id="formFileSm" type="file">
+      </div>
+
+      <div *ngFor="let error of errors">
+        <span style="color:red">{{ error }}</span>
+      </div>
+    </div>
+
+    <table class="table">
+      <tbody>
+
+        <tr *ngFor="let fileInfo of filesInfos;">
+
+          <div class="row">
+            <div class="col-md-6">
+              <span>{{ fileInfo.name }}</span>
+              <div class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                  attr.aria-valuenow="{{ fileInfo.perCompleted }}" aria-valuemin="0" aria-valuemax="100"
+                  [ngStyle]="{ width: fileInfo.perCompleted + '%' }">
+                  {{ fileInfo.perCompleted }}%
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <input (change)="setRepeat(fileInfo.idx)" type="text" id="password_{{fileInfo.idx}}"
+                class="form-control form-control-lg" placeholder="Senha" />
+              <div *ngIf="fileInfo.repeat" class="form-check">
+                <input (change)="repeatValue('password', fileInfo.idx)" class="form-check-input" type="checkbox"
+                  name="checkAll1" id="flexRadioDefault1">
+                <label class="form-check-label" for="checkAll1">
+                  Repetir senha
+                </label>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <input (change)="setRepeat(fileInfo.idx)" type="text" id="stockBroker_{{fileInfo.idx}}"
+                class="form-control form-control-lg" placeholder="Corretora" />
+
+              <div *ngIf="fileInfo.repeat" class="form-check">
+                <input (change)="repeatValue('stockBroker', fileInfo.idx)" class="form-check-input" type="checkbox"
+                  name="checkAll2" id="flexRadioDefault1">
+                <label class="form-check-label" for="checkAll2">
+                  Repetir corretora
+                </label>
+              </div>
+
+            </div>
+          </div>
+        </tr>
+
+      </tbody>
+    </table>
+    <div *ngIf="error" class="alert alert-danger mt-0 mb-3">{{error}}</div>
+
+    <button class="btn btn-outline-success" [disabled]="!selectedFiles||completed||loading" (click)="saveFiles()">
+      <i class="bi bi-cloud-upload"> {{ completed ? 'Informações salvas' : (loading) ?
+        'Carregando...' :
+        'Salvar' }}
+      </i>
+    </button>
+  </div>
+</left-menu>

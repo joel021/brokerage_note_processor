@@ -1,0 +1,71 @@
+<div class="auth-wrapper d-flex flex-column no-block justify-content-center align-items-center bg-light" style="margin-top: 2em;">
+    <div class="auth-box bg-light border-top border-secondary">
+        <div id="loginform">
+
+            <!-- Form -->
+            <div class="card" style="padding:3em;">
+                
+                <h2 class="text-center p-t-20 p-b-20"> <i class="bi bi-person-circle"></i></h2>
+                <h2 class="text-center p-t-20 p-b-20">Login</h2>
+
+                <button style="display: none;" (click)="signInWithGoogle()" class="btn btn-outline-danger" disabled>
+                    <i class="bi bi-google">Login com o google</i>
+                </button>
+
+                <br />
+
+                <form class="form-horizontal m-t-20" [formGroup]="loginForm" id="form-login">
+                    <div class="row p-b-0">
+                        <div class="col-12">
+                            <!-- e-mail-->
+                            <div class="input-group mb-3">
+
+                                <input type="text" formControlName="username"
+                                    [ngClass]="{ 'is-invalid': submitted && controls.username.errors }"
+                                    class="form-control form-control-lg" placeholder="E-mail" aria-label="E-mail"
+                                    aria-describedby="basic-addon1" required="" id="emailInput" />
+
+                                <div *ngIf="submitted && controls.username.errors" class="invalid-feedback">
+                                    <div *ngIf="controls.username.errors.required">E-mail</div>
+                                </div>
+                            </div>
+                            <!-- password -->
+                            <div class="input-group mb-3">
+
+                                <input type="password" formControlName="password"
+                                    [ngClass]="{ 'is-invalid': submitted && controls.password.errors }"
+                                    class="form-control form-control-lg" placeholder="Password" aria-label="Password"
+                                    aria-describedby="basic-addon1" required="" id="passInput" autocomplete="false">
+                                <div *ngIf="submitted && controls.password.errors" class="invalid-feedback">
+                                    <div *ngIf="controls.password.errors.required">Forneça a sua senha.</div>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <p>Ao registrar-se, você concorda com as políticas de  
+                                    <a href="/privacy-policy">privacidade</a>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="error" class="alert alert-danger mt-0 mb-3">{{error}}</div>
+
+                    <div class="col-12 flex-column register">
+                        <button type="button" type="submit" class="btn btn-primary" (click)="onSubmit()" style="width: 100%;">{{ loading ?
+                            'Loading...' : 'Submit' }}</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="p-t-20">
+                        <button [disabled]="loading" class="btn btn-light" id="to-recover" type="button"
+                            (click)="recover()"><i class="fa fa-lock m-r-5"></i>Recuperar conta</button>
+                        <button [disabled]="loading" form="form-login" class="btn btn-light"
+                            (click)="signupUser()">Criar conta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
