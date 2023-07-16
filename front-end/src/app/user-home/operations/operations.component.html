@@ -1,6 +1,7 @@
 <left-menu>
   <div class="container">
-    <h3>Gerenciar suas operações</h3>
+    <h3>Gerenciar suas operações  <button class="bi bi-save btn btn-link" (click)="downloadCsv()" ></button></h3>
+    
     <div *ngIf="!loading" class="alert alert-success" role="alert">
       <i class="bi bi-arrow-right"> <a href="/reports"> <b>Ir para dashboard</b></a></i>
     </div>
@@ -101,7 +102,7 @@
           </td>
 
           <td>
-            <button *ngIf="!operation.operationId" (click)="cancelAddOperation(i)" class="btn btn-light"><i
+            <button *ngIf="!operation.id" (click)="cancelAddOperation(i)" class="btn btn-light"><i
                 style="color:orange" class="bi bi-x-lg"></i></button>
           </td>
         </tr>

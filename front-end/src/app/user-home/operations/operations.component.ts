@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router'
 import { Activity } from 'src/app/_model/activity.interface';
 import { Operation } from 'src/app/_model/operation.model';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'operations-component',
@@ -186,7 +187,7 @@ export class OperationsComponent implements OnInit, Activity {
   saveEdition(i: number) {
     this.loading = true
 
-    if (this.operations[i].operationId == null) {
+    if (this.operations[i].id == null) {
       var operation = new Operation()
 
       try {
@@ -207,7 +208,7 @@ export class OperationsComponent implements OnInit, Activity {
 
       this.operationService.save(operation).subscribe({
         next: (result) => {
-          this.operations[i].operationId = result.operationId
+          this.operations[i].id = result.id
           this.operations[i].editedSuccess = true
           this.loading = false
         },
@@ -284,7 +285,7 @@ export class OperationsComponent implements OnInit, Activity {
   deleteOperation(idx: number) {
 
     this.loading = true
-    this.operationService.delete(this.operations[idx].operationId).subscribe({
+    this.operationService.delete(this.operations[idx].id).subscribe({
       next: (resp) => {
         this.loading = false
         this.operations[idx].checked = false
@@ -312,6 +313,15 @@ export class OperationsComponent implements OnInit, Activity {
   }
   cancelAddOperation(idx: number) {
     this.operations.splice(idx, 1)
+  }
+
+  downloadCsv(){
+    this.operationService.downloadCsv().subscribe({
+      next: (res) => {
+        console.log(res)
+        saveAs(res, "operations-"+this.user._id+".csv")
+      }
+    })
   }
 
 }

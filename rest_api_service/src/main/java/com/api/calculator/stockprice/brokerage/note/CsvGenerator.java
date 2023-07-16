@@ -29,7 +29,7 @@ public class CsvGenerator {
                     Arrays.asList(operation.getName(),operation.getActiveType(),
                             operation.getQtd(), operation.getValue(),
                     operation.getDate().toString(), operation.getTypeOp(), operation.getTypeMarket(),
-                    operation.getWallet(), operation.getCloseMonth(), operation.getNoteNumber(), operation.getFileId() ));
+                    operation.getWallet(), operation.getCloseMonth(), operation.getNoteNumber(), operation.getFileId()+"" ));
         }
 
         csvPrinter.flush();

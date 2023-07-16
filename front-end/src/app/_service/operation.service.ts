@@ -13,6 +13,10 @@ export class OperationService {
 
   }
 
+  downloadCsv(){
+    return this.http.get(`${environment.apiUrl}/users/operations/export_as_csv`, {responseType: 'blob'})
+  }
+
   deleteOperationsByFileId(fileId:string): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/users/operations/by_file/${fileId}`)
   }
