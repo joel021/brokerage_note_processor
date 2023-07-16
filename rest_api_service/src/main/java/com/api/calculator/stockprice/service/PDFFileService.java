@@ -83,7 +83,7 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
     public PDFFile create(User owner, MultipartFile multipartFile, PDFFile fileToSave) throws InternalException, ResourceAlreadyExists {
 
         fileToSave.setUserId(owner.getId());
-        fileToSave.setName(owner.getEmail()+"-"+multipartFile.getOriginalFilename());
+        fileToSave.setName(multipartFile.getOriginalFilename()+"-"+owner.getId());
         fileToSave.setUpdatedAt(null);
 
         try {

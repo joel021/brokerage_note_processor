@@ -37,4 +37,6 @@ public interface OperationRepository extends JpaRepository<Operation, Long> {
     void deleteByIdAndUserId(Long id, UUID userId);
 
     void deleteByFileIdAndUserId(UUID fileId, UUID userId);
+
+    void deleteAllByUserId(UUID userId);
 }

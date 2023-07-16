@@ -6,12 +6,15 @@ import com.api.calculator.stockprice.model.Operation;
 import com.api.calculator.stockprice.model.User;
 import com.api.calculator.stockprice.service.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.core.io.InputStreamResource;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -116,6 +119,26 @@ public class OperationController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(operationService.sumValuesPerActive(user.getId()));
+    }
+
+    @GetMapping("/export_as_csv")
+    public ResponseEntity<?> exportAsCsv(){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        InputStreamResource operationsCsv;
+        try {
+            operationsCsv  = new InputStreamResource(operationService.exportAsCsv(user.getId()));
+        } catch (IOException e) {
+            Map<String, List<String>> resp = new HashMap<>();
+            resp.put("errors", Collections.singletonList("Não foi possível gerar o arquivo CSV."));
+            return ResponseEntity.internalServerError()
+                    .body(resp);
+        }
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=operations-" + user.getEmail()+".csv")
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(operationsCsv);
     }
 
 }

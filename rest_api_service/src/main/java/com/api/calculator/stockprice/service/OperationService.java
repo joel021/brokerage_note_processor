@@ -1,5 +1,6 @@
 package com.api.calculator.stockprice.service;
 
+import com.api.calculator.stockprice.brokerage.note.CsvGenerator;
 import com.api.calculator.stockprice.brokerage.note.OperationBalancer;
 import com.api.calculator.stockprice.exceptions.ResourceNotFoundException;
 import com.api.calculator.stockprice.model.Operation;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -23,6 +26,10 @@ public class OperationService {
 
     public List<Operation> findAllByUserId(UUID userId){
         return operationRepository.findByUserId(userId);
+    }
+
+    public ByteArrayInputStream exportAsCsv(UUID userId) throws IOException {
+        return CsvGenerator.generateOperations(operationRepository.findByUserId(userId));
     }
 
     public List<Operation> findAllByUserId(UUID userId, int page, int quantity) {
@@ -97,5 +104,9 @@ public class OperationService {
 
     public List<Object> sumValuesPerActive(UUID userId){
         return operationRepository.sumValuesPerActive(userId);
+    }
+
+    public void deleteAllByUserId(UUID userId){
+        operationRepository.deleteAllByUserId(userId);
     }
 }

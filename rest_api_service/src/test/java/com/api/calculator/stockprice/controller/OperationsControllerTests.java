@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -26,6 +27,7 @@ import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -43,9 +45,6 @@ public class OperationsControllerTests {
     private AuthService authService;
 
     @Autowired
-    private OperationService operationService;
-
-    @Autowired
     private OperationRepository operationRepository;
 
     private User owner;
@@ -59,15 +58,22 @@ public class OperationsControllerTests {
         owner = authService.signup(new User("Operation tester", "operationtester@gmail.com", "password", "USER", null));
         owner.setPassword("password");
         userAuth = authService.signin(owner);
+
+        for(int i = 0; i < 4; i++){
+            operationRepository.save(new Operation(null, owner.getId(), "operation", "active", 100, 1000f,
+                    new java.sql.Date(System.currentTimeMillis()), "SWING TRADE", "VISTA", null,
+                    "CLOSED", "2023-07","000000"));
+        }
     }
 
     @After
     public void afterEach() {
         userRepository.deleteById(owner.getId());
+        operationRepository.deleteAllByUserId(owner.getId());
     }
 
     @Test
-    public void saveWithEmpties() throws Exception {
+    public void saveWithEmptiesTest() throws Exception {
 
         Operation operation = new Operation(null, null, "", "", 0, 0f, null, "","",
                 null, "", null, null);
@@ -83,7 +89,7 @@ public class OperationsControllerTests {
     }
 
     @Test
-    public void saveWithNulls() throws Exception {
+    public void saveWithNullsTest() throws Exception {
 
         Operation operation = new Operation(null, null, null, null, 1, 1f, null, null,
                 null, null, null, null, null);
@@ -99,7 +105,7 @@ public class OperationsControllerTests {
     }
 
     @Test
-    public void dreamSave() throws Exception {
+    public void dreamSaveTest() throws Exception {
 
         Operation operation = new Operation(null, null, "ACTIVENAME23", "ACTIVE", 100, 8000f,
                 new java.sql.Date(new Date().getTime()), "SWINGTRADE","VISTA",
@@ -119,7 +125,7 @@ public class OperationsControllerTests {
     }
 
     @Test
-    public void update() throws Exception {
+    public void updateTest() throws Exception {
         Operation operation = new Operation(null, UUID.fromString(userAuth.get("userId").toString()),
                 "ACTIVENAME23", "ACTIVE", 100, 8000f,
                 new java.sql.Date(new GregorianCalendar().getTimeInMillis()), "SWINGTRADE","VISTA",
@@ -138,7 +144,7 @@ public class OperationsControllerTests {
     }
 
     @Test
-    public void updateExistentButIsNotFromTheUser() throws Exception {
+    public void updateExistentButIsNotFromTheUserTest() throws Exception {
 
         Operation operation = new Operation(null, null, "ACTIVENAME23", "ACTIVE", 100, 8000f,
                 new java.sql.Date(new GregorianCalendar().getTimeInMillis()), "SWINGTRADE","VISTA",
@@ -150,8 +156,21 @@ public class OperationsControllerTests {
         operationMap.put("date", "2023-05-18");
         mockMvc.perform(
                 patch("/api/users/operations/" + operation.getId()).contentType(TestsUtils.CONTENT_TYPE)
-                        .content(TestsUtils.objectToJson(operationMap)).header("authorization", "Bearer " + userAuth.get("token"))
-        ).andExpect(status().isNotFound()).andReturn();
+                        .content(TestsUtils.objectToJson(operationMap))
+                        .header("authorization", "Bearer " + userAuth.get("token"))
+        ).andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void exportAsCsvTest() throws Exception {
+
+        MockHttpServletResponse response = mockMvc.perform(get("/api/users/operations/export_as_csv")
+                .header("authorization", "Bearer " + userAuth.get("token")))
+                .andExpect(status().isOk())
+                .andReturn().getResponse();
+
+        assert "application/csv".equals(response.getContentType());
+        System.out.println(response.getContentAsString());
     }
 
 }

@@ -14,8 +14,6 @@ import java.sql.Date;
 import java.util.Map;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.ObjectMapper;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -83,7 +81,7 @@ public class Operation implements Comparable<Operation>, Cloneable {
         try {
             return new ObjectMapper().convertValue(operationMap, Operation.class);
         }catch (Exception e){
-            throw new NotAcceptedException("Values not accepted.");
+            throw new NotAcceptedException("Os valores fornecidos estão incorretos.");
         }
     }
 
