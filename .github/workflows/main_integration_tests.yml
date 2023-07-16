@@ -11,9 +11,10 @@ on:
     - master
     
 env:
-  MYSQL_DATABASE: user_crud_db
-  DB_USER: root
-  DB_PASSWORD: root
+  SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/stock_price_db
+  MYSQL_DATABASE: stock_price_db
+  SPRING_DATASOURCE_USERNAME: root
+  SPRING_DATASOURCE_PASSWORD: default_mysql_pass
             
 jobs:
 
@@ -28,13 +29,13 @@ jobs:
     - name: Initialize first database
       run: |
         mysql -e 'CREATE DATABASE ${{ env.MYSQL_DATABASE }};' \
-        -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+        -u${{ env.SPRING_DATASOURCE_USERNAME }} -p${{ env.SPRING_DATASOURCE_PASSWORD }}
 
     - name: Boost user
       run: |
-        mysql -e "ALTER USER '${{ env.DB_USER }}'@'localhost' \
+        mysql -e "ALTER USER '${{ env.SPRING_DATASOURCE_USERNAME }}'@'localhost' \
         IDENTIFIED WITH mysql_native_password BY 'root';" \
-        -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+        -u${{ env.SPRING_DATASOURCE_USERNAME }} -p${{ env.SPRING_DATASOURCE_PASSWORD }}
 
     - name: Check out repository code
       uses: actions/checkout@v3
@@ -52,7 +53,7 @@ jobs:
 
     - name: compile and test to export
       run: |
-        export DB_PASSWORD=root
+        export SPRING_DATASOURCE_PASSWORD=root
         cd rest_api_service
         mvn clean package -Pprod
         
