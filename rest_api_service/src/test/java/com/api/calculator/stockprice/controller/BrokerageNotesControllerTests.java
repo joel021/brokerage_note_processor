@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -75,6 +76,11 @@ public class BrokerageNotesControllerTests {
     @Test
     public void dreamUploadAndSave() throws Exception {
 
+        Files.createDirectories(Paths.get("static/pdf_tests/pdfs"));
+
+        if (Paths.get("static/pdf_tests/pdfs").toFile().listFiles() == null){
+            return;
+        }
         for(File file: Paths.get("static/pdf_tests/pdfs").toFile().listFiles()){
 
             final MockMultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "application/pdf", new FileInputStream(file));

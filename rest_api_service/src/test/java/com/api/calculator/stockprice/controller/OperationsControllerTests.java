@@ -6,7 +6,6 @@ import com.api.calculator.stockprice.model.Operation;
 import com.api.calculator.stockprice.model.User;
 import com.api.calculator.stockprice.repository.OperationRepository;
 import com.api.calculator.stockprice.repository.UserRepository;
-import com.api.calculator.stockprice.service.OperationService;
 import com.api.calculator.stockprice.service.user.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;

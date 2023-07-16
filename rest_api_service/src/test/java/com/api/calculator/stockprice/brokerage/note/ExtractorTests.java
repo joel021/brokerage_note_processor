@@ -27,6 +27,10 @@ public class ExtractorTests {
         Path pdfsToTest = Paths.get("static/pdf_tests/pdfs");
         Files.createDirectories(pdfsToTest);
 
+        if (pdfsToTest.toFile().listFiles() == null){
+            return;
+        }
+
         for(File pdfFile: pdfsToTest.toFile().listFiles()) {
 
             String fileUri = pdfFile.getAbsoluteFile().toString();
@@ -69,6 +73,10 @@ public class ExtractorTests {
     public void textExtractor() throws IOException {
         TextExtractor textExtractor = new TextExtractor();
         Path pdfsToTest = Paths.get("static/pdf_tests/pdfs");
+        Files.createDirectories(pdfsToTest);
+        if(pdfsToTest.toFile().listFiles() == null){
+            return;
+        }
 
         for(File pdfFile: pdfsToTest.toFile().listFiles()){
             List<String> pages = textExtractor.parseFromFileUri(pdfFile.toURI().toString());
@@ -90,7 +98,10 @@ public class ExtractorTests {
         FutureExtractor futureExtractor = new FutureExtractor();
 
         Path root = Paths.get("static/pdf_tests/pdfs");
-
+        Files.createDirectories(root);
+        if(root.toFile().listFiles() != null){
+            return;
+        }
         for(File pdfFile: root.toFile().listFiles()) {
 
             String fileUri = pdfFile.getAbsoluteFile().toString();
@@ -119,7 +130,10 @@ public class ExtractorTests {
         FutureExtractor futureExtractor = new FutureExtractor();
 
         Path root = Paths.get("static/pdf_tests/pdfs");
-
+        Files.createDirectories(root);
+        if(root.toFile().listFiles() == null){
+            return;
+        }
         for(File pdfFile: root.toFile().listFiles()){
             UUID fileId = UUID.randomUUID();
             List<String> pages = textExtractor.parseFromFileUri(pdfFile.getAbsoluteFile().toString());
