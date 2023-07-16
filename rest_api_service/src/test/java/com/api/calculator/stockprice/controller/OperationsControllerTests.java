@@ -63,7 +63,7 @@ public class OperationsControllerTests {
 
     @After
     public void afterEach() {
-        userRepository.deleteById(owner.getUserId());
+        userRepository.deleteById(owner.getId());
     }
 
     @Test
@@ -113,9 +113,9 @@ public class OperationsControllerTests {
                         .content(TestsUtils.objectToJson(operatioMap)).header("authorization", "Bearer " + userAuth.get("token"))
         ).andExpect(status().isOk()).andReturn();
 
-        final HashMap<String, Object> responseEmpty = new ObjectMapper().readValue(result2.getResponse().getContentAsString(), HashMap.class);
-        assert (responseEmpty.get("operationId") != null);
-        operationRepository.deleteById(Long.parseLong(responseEmpty.get("operationId").toString()));
+        final HashMap<String, Object> operationFromResponse = new ObjectMapper().readValue(result2.getResponse().getContentAsString(), HashMap.class);
+        assert (operationFromResponse.get("id") != null);
+        operationRepository.deleteById(Long.parseLong(operationFromResponse.get("id").toString()));
     }
 
     @Test
@@ -130,26 +130,27 @@ public class OperationsControllerTests {
         Map<String, Object> operatioMap = oMapper.convertValue(operation, Map.class);
         operatioMap.put("date", "2023-05-18");
         mockMvc.perform(
-                patch("/api/users/operations/" + operation.getOperationId()).contentType(TestsUtils.CONTENT_TYPE)
+                patch("/api/users/operations/" + operation.getId()).contentType(TestsUtils.CONTENT_TYPE)
                         .content(TestsUtils.objectToJson(operatioMap)).header("authorization", "Bearer " + userAuth.get("token"))
         ).andExpect(status().isOk());
 
-        operationRepository.deleteById(operation.getOperationId());
+        operationRepository.deleteById(operation.getId());
     }
 
     @Test
     public void updateExistentButIsNotFromTheUser() throws Exception {
 
-        Operation operation = new Operation(1L, null, "ACTIVENAME23", "ACTIVE", 100, 8000f,
+        Operation operation = new Operation(null, null, "ACTIVENAME23", "ACTIVE", 100, 8000f,
                 new java.sql.Date(new GregorianCalendar().getTimeInMillis()), "SWINGTRADE","VISTA",
                 null, "SOLD", "2023-04", null);
+        operation = operationRepository.save(operation);
 
         ObjectMapper oMapper = new ObjectMapper();
-        Map<String, Object> operatioMap = oMapper.convertValue(operation, Map.class);
-        operatioMap.put("date", "2023-05-18");
+        Map<String, Object> operationMap = oMapper.convertValue(operation, Map.class);
+        operationMap.put("date", "2023-05-18");
         mockMvc.perform(
-                patch("/api/users/operations/" + operation.getOperationId()).contentType(TestsUtils.CONTENT_TYPE)
-                        .content(TestsUtils.objectToJson(operatioMap)).header("authorization", "Bearer " + userAuth.get("token"))
+                patch("/api/users/operations/" + operation.getId()).contentType(TestsUtils.CONTENT_TYPE)
+                        .content(TestsUtils.objectToJson(operationMap)).header("authorization", "Bearer " + userAuth.get("token"))
         ).andExpect(status().isNotFound()).andReturn();
     }
 

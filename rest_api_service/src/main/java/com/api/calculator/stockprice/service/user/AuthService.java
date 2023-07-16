@@ -10,17 +10,14 @@ import com.api.calculator.stockprice.exceptions.InternalException;
 import com.api.calculator.stockprice.exceptions.ResourceNotFoundException;
 import com.api.calculator.stockprice.exceptions.UnauthorizedException;
 import com.api.calculator.stockprice.model.GmailCredentials;
-import com.api.calculator.stockprice.security.JwtAuthProvider;
 import com.api.calculator.stockprice.service.google.GmailService;
 import com.api.calculator.stockprice.service.google.GmailServiceImpl;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +57,7 @@ public class AuthService {
         HashMap<String, Object> credentials = new HashMap<>();
         credentials.put("name", userDetails.getName());
         credentials.put("email", userDetails.getEmail());
-        credentials.put("userId", userDetails.getUserId().toString());
+        credentials.put("userId", userDetails.getId().toString());
         credentials.put("token", jwt);
         credentials.put("role", userDetails.getRole());
 
@@ -77,7 +74,7 @@ public class AuthService {
 
         return userRepository.save(
                 new User(
-                        user.getUserId(),
+                        user.getId(),
                         user.getName(),
                         user.getEmail(),
                         bCryptPasswordEncoder.encode(user.getPassword()),
@@ -127,11 +124,11 @@ public class AuthService {
 
                 String verificationCode = ""+ (int) Math.floor(Math.random() * 9001 + 1000);
 
-                User user = new User(users.get(0).getUserId(), users.get(0).getName(), users.get(0).getEmail(),
+                User user = new User(users.get(0).getId(), users.get(0).getName(), users.get(0).getEmail(),
                         verificationCode, users.get(0).getRole(), null);
 
                 userRepository.saveAndFlush(new User(
-                        user.getUserId(),
+                        user.getId(),
                         user.getName(),
                         user.getEmail(),
                         new BCryptPasswordEncoder().encode(verificationCode),
@@ -157,16 +154,16 @@ public class AuthService {
             User userFound = searchUser.findByEmail(user.getEmail());
             if (userFound != null) {
                 userFound.setGoogleUserId(user.getGoogleUserId());
-                user.setUserId(userFound.getUserId());
+                user.setId(userFound.getId());
                 userRepository.save(userFound);
             }else{
                 user.setRole(Role.USER);
                 user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
                 User result = userRepository.save(user);
-                user.setUserId(result.getUserId());
+                user.setId(result.getId());
             }
         }else{
-            user.setUserId(users.get(0).getUserId());
+            user.setId(users.get(0).getId());
         }
 
         String token = jwtTokenProvider.generateJwtToken(user);
@@ -174,7 +171,7 @@ public class AuthService {
         userAuthenticated.put("role", user.getRole());
         userAuthenticated.put("name", user.getName());
         userAuthenticated.put("email", user.getEmail());
-        userAuthenticated.put("userId", user.getUserId().toString());
+        userAuthenticated.put("userId", user.getId().toString());
         userAuthenticated.put("token", token);
 
         return userAuthenticated;

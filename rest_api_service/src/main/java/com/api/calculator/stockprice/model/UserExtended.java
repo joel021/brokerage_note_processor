@@ -5,7 +5,7 @@ public class UserExtended extends User {
     private String token;
 
     public UserExtended(User user){
-        super(user.getUserId(), user.getName(), user.getEmail(), user.getPassword(), user.getRole(), user.getVerificationCode());
+        super(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getRole(), user.getVerificationCode());
     }
 
     public UserExtended(){

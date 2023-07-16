@@ -63,9 +63,9 @@ public class UserControllerUserTests {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        final HashMap<String, Object> responseBody = new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
+        final HashMap<String, Object> userFromResponse = new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
 
-        assert ( responseBody.get("userId") != null);
+        assert ( userFromResponse.get("id") != null);
 
 
     }

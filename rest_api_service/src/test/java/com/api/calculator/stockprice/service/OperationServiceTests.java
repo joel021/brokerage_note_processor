@@ -1,6 +1,7 @@
 package com.api.calculator.stockprice.service;
 
 import com.api.calculator.stockprice.model.Operation;
+import com.api.calculator.stockprice.repository.OperationRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +19,8 @@ import java.util.UUID;
 @SpringBootTest
 public class OperationServiceTests {
 
+    @Autowired
+    private OperationRepository operationRepository;
 
     @Autowired
     private OperationService operationService;
@@ -26,6 +29,7 @@ public class OperationServiceTests {
 
     private UUID userId;
 
+    private UUID fileId;
 
     @Before
     public void setup(){
@@ -35,7 +39,7 @@ public class OperationServiceTests {
         for(int i =0; i < 10; i++){
             Operation operation = new Operation(null, null, "OPTEST1", "type", 100, 100.0f,
                     new Date(new java.util.Date().getTime()),"typeOp",
-                   "type Market", null, "CLOSED", "2022-01", null);
+                   "type Market", null, "CLOSED", "2022-01", "0000");
 
             operations.add(operationService.save(userId, operation));
 
@@ -45,14 +49,16 @@ public class OperationServiceTests {
     @After
     public void tearDown(){
         for(Operation operation: operations){
-            operationService.deleteById(userId, operation.getOperationId());
+            try {
+                operationService.deleteById(userId, operation.getId());
+            }catch (Exception e){}
         }
     }
 
     @Test
     public void sumTest(){
 
-        assert operationService.countNonDeletedByUserId(userId) != 0;
+        assert operationService.countByUserId(userId) != 0;
         assert operationService.sumValuesPerActive(userId) != null;
         assert !operationService.sumValuesPerActive(userId).isEmpty();
         assert operationService.sumValuesPerMonth(userId) != null;
@@ -61,6 +67,21 @@ public class OperationServiceTests {
                 operations.get(0).getTypeOp()) != null;
         assert !operationService.sumValuesPerMonthWhereTypeMarketAndTypeOp(userId, operations.get(0).getTypeMarket(),
                 operations.get(0).getTypeOp()).isEmpty();
+    }
+
+    @Test
+    public void findsTest(){
+        assert !operationService.findAllByUserId(userId).isEmpty();
+        assert !operationService.findAllByUserId(userId, 1, 1).isEmpty();
+    }
+
+    @Test
+    public void deletesTest(){
+        operationService.deleteById(userId, operations.get(0).getId());
+        operationService.deleteByFileId(userId, fileId);
+
+        assert !operationRepository.findById(operations.get(0).getId()).isPresent();
+        assert operationRepository.findById(operations.get(1).getId()).isPresent();
     }
 
 }

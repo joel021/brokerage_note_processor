@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -24,6 +25,7 @@ public class ExtractorTests {
         TextExtractor textExtractor = new TextExtractor();
         UUID fileId = UUID.randomUUID();
         Path pdfsToTest = Paths.get("static/pdf_tests/pdfs");
+        Files.createDirectories(pdfsToTest);
 
         for(File pdfFile: pdfsToTest.toFile().listFiles()) {
 

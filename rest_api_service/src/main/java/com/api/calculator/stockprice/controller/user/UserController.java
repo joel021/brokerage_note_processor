@@ -3,7 +3,6 @@ package com.api.calculator.stockprice.controller.user;
 import com.api.calculator.stockprice.exceptions.NotAcceptedException;
 import com.api.calculator.stockprice.exceptions.ResourceNotFoundException;
 import com.api.calculator.stockprice.model.User;
-import com.api.calculator.stockprice.service.user.AuthService;
 import com.api.calculator.stockprice.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,7 @@ public class UserController {
         User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         try {
-            userService.update(authUser.getUserId(), userUpdate);
+            userService.update(authUser.getId(), userUpdate);
 
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -44,7 +43,7 @@ public class UserController {
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(userService.findById(user.getUserId()));
+                    .body(userService.findById(user.getId()));
         }catch (ResourceNotFoundException e){
             HashMap<String, Object> errorBody = new HashMap<>();
             List<String> errors = new ArrayList<>();

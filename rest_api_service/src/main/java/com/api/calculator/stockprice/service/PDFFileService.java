@@ -82,7 +82,7 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
 
     public PDFFile create(User owner, MultipartFile multipartFile, PDFFile fileToSave) throws InternalException, ResourceAlreadyExists {
 
-        fileToSave.setUserId(owner.getUserId());
+        fileToSave.setUserId(owner.getId());
         fileToSave.setName(owner.getEmail()+"-"+multipartFile.getOriginalFilename());
         fileToSave.setUpdatedAt(null);
 
@@ -98,8 +98,8 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
             throw new InternalException("O arquivo está corrompido ou não foi enviado completamente. A senha também pode" +
                     " estar errada.");
         }
-        new BrokerageOperationsHandler().processPdfFile(this, owner.getUserId(), fileToSave.getFileId(),
-                this.root.resolve(fileToSave.getName()).toFile().toString(), operationService.findAllByUserId(owner.getUserId()));
+        new BrokerageOperationsHandler().processPdfFile(this, owner.getId(), fileToSave.getFileId(),
+                this.root.resolve(fileToSave.getName()).toFile().toString(), operationService.findAllByUserId(owner.getId()));
         fileToSave.setExtractedAt(new Date(new GregorianCalendar().getTimeInMillis()));
         return pdfFileRepository.save(fileToSave);
     }

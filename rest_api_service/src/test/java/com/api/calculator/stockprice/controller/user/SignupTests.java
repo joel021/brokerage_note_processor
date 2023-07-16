@@ -41,7 +41,7 @@ public class SignupTests {
         List<User> nonAdminSignup = userRepository.findByEmail(email);
         if(nonAdminSignup != null){
             if (!nonAdminSignup.isEmpty()) {
-                userRepository.deleteById(nonAdminSignup.get(0).getUserId());
+                userRepository.deleteById(nonAdminSignup.get(0).getId());
             }
         }
     }
@@ -62,7 +62,7 @@ public class SignupTests {
         deleteUserByEmail(noMatchPassSignupUser.getEmail());
         deleteUserByEmail(adminSettedSignupUser.getEmail());
 
-        userRepository.deleteById(alreadyUser.getUserId());
+        userRepository.deleteById(alreadyUser.getId());
     }
 
     @Test

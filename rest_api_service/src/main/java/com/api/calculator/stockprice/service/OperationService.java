@@ -17,17 +17,18 @@ public class OperationService {
     @Autowired
     private OperationRepository operationRepository;
 
-    public int countNonDeletedByUserId(UUID userId){
-        return operationRepository.countByUserIdAndDeletedAt(userId, null);
+    public int countByUserId(UUID userId){
+        return operationRepository.countByUserId(userId);
     }
 
     public List<Operation> findAllByUserId(UUID userId){
         return operationRepository.findByUserId(userId);
     }
 
-    public List<Operation> findNonDeletedByUserId(UUID userId, int page, int quantity) {
+    public List<Operation> findAllByUserId(UUID userId, int page, int quantity) {
 
-        return operationRepository.findAllByUserIdAndDeletedAt(userId, null, PageRequest.of(page, quantity, Sort.by(Sort.Direction.DESC, "closeMonth")));
+        return operationRepository.findAllByUserId(userId,
+                PageRequest.of(page, quantity, Sort.by(Sort.Direction.DESC, "closeMonth")));
     }
     public Operation save(UUID userId, Operation operation){
         operation.setUserId(userId);
@@ -36,7 +37,7 @@ public class OperationService {
 
     public Operation update(UUID authUserId, Operation updateOperation) throws ResourceNotFoundException {
 
-        Optional<Operation> optionalOperation = operationRepository.findByOperationIdAndUserId(updateOperation.getOperationId(), authUserId);
+        Optional<Operation> optionalOperation = operationRepository.findByIdAndUserId(updateOperation.getId(), authUserId);
 
         if (optionalOperation.isPresent()){
             Operation oldOperation = optionalOperation.get();
@@ -79,11 +80,11 @@ public class OperationService {
     }
 
     public void deleteByFileId(UUID userId, UUID fileId) {
-        operationRepository.setDeletedAtByUserIdAndFileId(new Date(), userId, fileId);
+        operationRepository.deleteByFileIdAndUserId(userId, fileId);
     }
 
     public void deleteById(UUID userId, long operationId){
-        operationRepository.setDeletedAtByUserIdAndId(new Date(), userId, operationId);
+        operationRepository.deleteByIdAndUserId(operationId, userId);
     }
 
     public List<Object> sumValuesPerMonth(UUID userId){

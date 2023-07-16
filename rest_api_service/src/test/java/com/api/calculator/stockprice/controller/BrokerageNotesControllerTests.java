@@ -23,8 +23,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URL;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -68,9 +66,9 @@ public class BrokerageNotesControllerTests {
 
     @After
     public void afterEach() throws Exception {
-        userRepository.deleteById(owner.getUserId());
+        userRepository.deleteById(owner.getId());
         for(String fileId: pdfFilesIds){
-            pdfFileService.deleteById(owner.getUserId(), UUID.fromString(fileId));
+            pdfFileService.deleteById(owner.getId(), UUID.fromString(fileId));
         }
     }
 
@@ -93,7 +91,7 @@ public class BrokerageNotesControllerTests {
             final HashMap<String, Object> responseBody = new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
             assert(responseBody.get("fileId") != null);
             pdfFilesIds.add(responseBody.get("fileId").toString());
-            assert !operationService.findNonDeletedByUserId(owner.getUserId(), 0, 20).isEmpty();
+            assert !operationService.findAllByUserId(owner.getId(), 0, 20).isEmpty();
         }
 
     }

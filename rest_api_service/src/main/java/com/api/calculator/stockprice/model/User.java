@@ -13,13 +13,14 @@ import jakarta.validation.constraints.NotBlank;
 
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "userId")
+        property = "id")
 @Entity(name = "user")
 public class User implements UserDetails {
-    @Id
+
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="userId", updatable=false, unique=true, nullable=false)
-    private UUID userId;
+    @Column(name="id", updatable=false, unique=true, nullable=false)
+    @Id
+    private UUID id;
 
     private String googleUserId;
 
@@ -51,9 +52,9 @@ public class User implements UserDetails {
         this.verificationCode = verificationCode;
     }
 
-    public User(UUID userId, String name, String email, String password, String role, String verificationCode){
+    public User(UUID id, String name, String email, String password, String role, String verificationCode){
         this.name = name;
-        this.userId = userId;
+        this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -85,12 +86,12 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public void setUserId(UUID userId){
-        this.userId = userId;
+    public void setId(UUID id){
+        this.id = id;
     }
 
-    public UUID getUserId(){
-        return userId;
+    public UUID getId(){
+        return id;
     }
     public String getRole() {
         return role;

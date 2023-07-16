@@ -38,7 +38,7 @@ public class BrokerageNotesController {
         try {
             response.put("fileId", pdfFileService.create(user, file,
                     new PDFFile(null,
-                        user.getUserId(),
+                        user.getId(),
                         null,
                             password,
                             stockBroker,
@@ -71,11 +71,11 @@ public class BrokerageNotesController {
             updatedAt = Date.from(Instant.parse(fileInfo.get("updatedAt").toString()));
         }
 
-        PDFFile pdfFile = new PDFFile(UUID.fromString(fileInfo.get("fileId").toString()), user.getUserId(), null,
+        PDFFile pdfFile = new PDFFile(UUID.fromString(fileInfo.get("fileId").toString()), user.getId(), null,
                 (String) fileInfo.get("password"), (String) fileInfo.get("stockBroker"), updatedAt);
 
         try {
-            pdfFileService.update(user.getUserId(), pdfFile);
+            pdfFileService.update(user.getId(), pdfFile);
             response.put("fileId", pdfFile.getFileId());
 
             return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -98,7 +98,7 @@ public class BrokerageNotesController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         try {
-            Map<String, Object> result = pdfFileService.load(user.getUserId(), UUID.fromString(fileId));
+            Map<String, Object> result = pdfFileService.load(user.getId(), UUID.fromString(fileId));
 
             return ResponseEntity.ok()
                     .contentLength((long) result.get("length"))
@@ -123,7 +123,7 @@ public class BrokerageNotesController {
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        respMap.put("files", pdfFileService.findByUserId(user.getUserId(), page, quantity));
+        respMap.put("files", pdfFileService.findByUserId(user.getId(), page, quantity));
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
                 .body(respMap);
     }
@@ -132,7 +132,7 @@ public class BrokerageNotesController {
     public ResponseEntity<Map<String, Object>> countByUserId(){
         HashMap<String, Object> respMap = new HashMap<>();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        respMap.put("quantity", pdfFileService.countByUserId(user.getUserId()));
+        respMap.put("quantity", pdfFileService.countByUserId(user.getId()));
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(respMap);
     }
 
@@ -143,7 +143,7 @@ public class BrokerageNotesController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         try {
-            pdfFileService.deleteById(user.getUserId(), UUID.fromString(fileId));
+            pdfFileService.deleteById(user.getId(), UUID.fromString(fileId));
             respMap.put("message", Collections.singletonList("Deletado com sucesso"));
             return ResponseEntity.status(HttpStatus.OK).body(respMap);
         } catch (ResourceNotFoundException e) {

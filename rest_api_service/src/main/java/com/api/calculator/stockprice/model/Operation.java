@@ -14,16 +14,19 @@ import java.sql.Date;
 import java.util.Map;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.ObjectMapper;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "operationId")
+        property = "id")
 @Entity(name = "operation")
 @Data
 public class Operation implements Comparable<Operation>, Cloneable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long operationId;
+    private Long id;
 
     private UUID userId;
 
@@ -53,18 +56,16 @@ public class Operation implements Comparable<Operation>, Cloneable {
 
     private String closeMonth;
 
-    private Date deletedAt;
-
     private String noteNumber;
 
     public Operation(){
 
     }
 
-    public Operation(Long operationId, UUID userId, String name, String activeType, Integer qtd, Float value, Date date, String typeOp,
+    public Operation(Long id, UUID userId, String name, String activeType, Integer qtd, Float value, Date date, String typeOp,
                      String typeMarket, UUID fileId, String wallet, String closeMonth, String noteNumber){
         this.userId = userId;
-        this.operationId = operationId;
+        this.id = id;
         this.name = name;
         this.activeType = activeType;
         this.qtd = qtd;
@@ -79,23 +80,10 @@ public class Operation implements Comparable<Operation>, Cloneable {
     }
 
     public static Operation get(Map<String, Object> operationMap) throws NotAcceptedException {
-        UUID fileId = null;
-        Date date = null;
         try {
-            fileId = UUID.fromString((String) operationMap.get("fileId"));
-        } catch (Exception ignored){}
-        try {
-            if (operationMap.get("date") != null) {
-                date = Date.valueOf((String) operationMap.get("date"));
-            }
-            return new Operation(Long.parseLong(operationMap.get("operationId").toString()), null, (String) operationMap.get("name"),
-                    (String) operationMap.get("type"), Integer.parseInt(operationMap.get("qtd").toString()),
-                    Float.parseFloat(operationMap.get("value").toString()), date, (String)operationMap.get("typeOp"),
-                    (String)operationMap.get("typeMarket"), fileId, (String) operationMap.get("wallet"),
-                    (String) operationMap.get("closeMonth"), (String) operationMap.get("noteNumber"));
+            return new ObjectMapper().convertValue(operationMap, Operation.class);
         }catch (Exception e){
-            e.printStackTrace();
-            throw new NotAcceptedException("Os dados fornecidos estão incorretos.");
+            throw new NotAcceptedException("Values not accepted.");
         }
     }
 

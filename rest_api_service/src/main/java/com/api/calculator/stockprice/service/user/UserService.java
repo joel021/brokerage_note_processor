@@ -1,7 +1,6 @@
 package com.api.calculator.stockprice.service.user;
 
 import com.api.calculator.stockprice.exceptions.NotAcceptedException;
-import com.api.calculator.stockprice.exceptions.NotAllowedException;
 import com.api.calculator.stockprice.exceptions.ResourceNotFoundException;
 import com.api.calculator.stockprice.model.User;
 import com.api.calculator.stockprice.repository.UserRepository;
@@ -74,7 +73,7 @@ public class UserService {
         userUpdate.setEmail(email);
         userUpdate.setVerificationCode(oldUser.getVerificationCode());
         userUpdate.setRole(oldUser.getRole());
-        userUpdate.setUserId(userId);
+        userUpdate.setId(userId);
 
         userRepository.save(userUpdate);
     }

@@ -53,7 +53,7 @@ public class SigninTests {
 
     @After
     public void afterEach(){
-        userRepository.deleteById(dreamSigninUser.getUserId());
+        userRepository.deleteById(dreamSigninUser.getId());
     }
 
     @Test
