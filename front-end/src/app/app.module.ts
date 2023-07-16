@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PublicModule } from './public/public.module';
 import { UserHomeModule } from './user-home/user.home.module'
-import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { registerLocaleData } from '@angular/common';
@@ -19,6 +18,12 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
+
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+  GoogleLoginProvider
+} from '@abacritt/angularx-social-login';
 
 registerLocaleData(localePt);
 
@@ -55,7 +60,10 @@ registerLocaleData(localePt);
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(environment.googleClientId)
           }
-        ]
+        ],
+        onError: (err) => {
+          console.log(err)
+        }
       } as SocialAuthServiceConfig,
     }
   ],
