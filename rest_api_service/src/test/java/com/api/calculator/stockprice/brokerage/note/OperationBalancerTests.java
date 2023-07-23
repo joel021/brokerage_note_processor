@@ -1,6 +1,6 @@
 package com.api.calculator.stockprice.brokerage.note;
 
-import com.api.calculator.stockprice.model.Operation;
+import com.api.calculator.stockprice.ws.data.model.Operation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

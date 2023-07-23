@@ -1,7 +1,7 @@
 package com.api.calculator.stockprice.brokerage.note;
 
 
-import com.api.calculator.stockprice.model.Operation;
+import com.api.calculator.stockprice.ws.data.model.Operation;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.QuoteMode;

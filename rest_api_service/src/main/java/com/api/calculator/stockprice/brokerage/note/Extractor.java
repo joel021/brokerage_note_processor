@@ -1,7 +1,7 @@
 package com.api.calculator.stockprice.brokerage.note;
 
-import com.api.calculator.stockprice.model.ExtractionError;
-import com.api.calculator.stockprice.model.Operation;
+import com.api.calculator.stockprice.ws.data.model.ExtractionError;
+import com.api.calculator.stockprice.ws.data.model.Operation;
 
 import java.sql.Date;
 import java.text.ParseException;

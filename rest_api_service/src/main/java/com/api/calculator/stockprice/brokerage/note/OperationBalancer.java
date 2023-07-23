@@ -1,8 +1,7 @@
 package com.api.calculator.stockprice.brokerage.note;
 
 import com.api.calculator.stockprice.DateUtils;
-import com.api.calculator.stockprice.model.Operation;
-import jdk.jshell.spi.ExecutionControl;
+import com.api.calculator.stockprice.ws.data.model.Operation;
 
 import java.util.*;
 

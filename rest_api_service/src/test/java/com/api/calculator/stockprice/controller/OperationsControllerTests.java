@@ -2,11 +2,11 @@ package com.api.calculator.stockprice.controller;
 
 import com.api.calculator.stockprice.TestsUtils;
 import com.api.calculator.stockprice.exceptions.ResourceAlreadyExists;
-import com.api.calculator.stockprice.model.Operation;
-import com.api.calculator.stockprice.model.User;
-import com.api.calculator.stockprice.repository.OperationRepository;
-import com.api.calculator.stockprice.repository.UserRepository;
-import com.api.calculator.stockprice.service.user.AuthService;
+import com.api.calculator.stockprice.ws.data.model.Operation;
+import com.api.calculator.stockprice.ws.data.model.User;
+import com.api.calculator.stockprice.ws.data.repository.OperationRepository;
+import com.api.calculator.stockprice.ws.data.repository.UserRepository;
+import com.api.calculator.stockprice.ws.data.service.user.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
 import org.junit.After;
