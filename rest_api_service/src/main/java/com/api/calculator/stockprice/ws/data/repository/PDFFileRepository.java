@@ -12,4 +12,6 @@ public interface PDFFileRepository extends JpaRepository<PDFFile, UUID> {
     List<PDFFile> findAllByUserId(UUID userId, Pageable pageable);
 
     long countByUserId(UUID userId);
+
+    List<PDFFile> findByUserId(UUID userId);
 }

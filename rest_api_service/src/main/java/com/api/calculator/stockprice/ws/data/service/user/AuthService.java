@@ -16,6 +16,7 @@ import com.api.calculator.stockprice.ws.data.model.GmailCredentials;
 import com.api.calculator.stockprice.ws.security.JwtTokenProvider;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,7 +34,7 @@ import javax.mail.MessagingException;
 public class AuthService {
     
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -43,6 +44,18 @@ public class AuthService {
 
     @Autowired
     private UserService searchUser;
+
+    @Value("${google.auth.email}")
+    private String userEmail;
+
+    @Value("${google.auth.client.id}")
+    private String clientId;
+    @Value("${google.auth.client.secret}")
+    private String clientSecret;
+    @Value("${google.auth.access.token}")
+    private String accessToken;
+    @Value("${google.auth.refresh.token}")
+    private String refreshToken;
 
     public HashMap<String, Object> signin(User loginRequest) {
 
@@ -91,7 +104,7 @@ public class AuthService {
             try {
                 GmailService gmailService = new GmailServiceImpl(GoogleNetHttpTransport.newTrustedTransport());
 
-                GmailCredentials credentials = new GmailCredentials();
+                GmailCredentials credentials = new GmailCredentials(userEmail,clientId,clientSecret, accessToken,refreshToken);
                 gmailService.setGmailCredentials(credentials);
 
                 String verificationCode = ""+ (int) Math.floor(Math.random() * 9001 + 1000);

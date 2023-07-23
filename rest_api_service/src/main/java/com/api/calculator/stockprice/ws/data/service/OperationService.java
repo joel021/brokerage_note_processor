@@ -2,9 +2,11 @@ package com.api.calculator.stockprice.ws.data.service;
 
 import com.api.calculator.stockprice.brokerage.note.operation.CsvGenerator;
 import com.api.calculator.stockprice.brokerage.note.operation.OperationBalancer;
+import com.api.calculator.stockprice.ws.data.model.PDFFile;
 import com.api.calculator.stockprice.ws.data.repository.OperationRepository;
 import com.api.calculator.stockprice.exceptions.ResourceNotFoundException;
 import com.api.calculator.stockprice.ws.data.model.Operation;
+import com.api.calculator.stockprice.ws.data.repository.PDFFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,6 +22,9 @@ public class OperationService {
     @Autowired
     private OperationRepository operationRepository;
 
+    @Autowired
+    private PDFFileRepository pdfFileRepository;
+
     public int countByUserId(UUID userId){
         return operationRepository.countByUserId(userId);
     }
@@ -29,7 +34,18 @@ public class OperationService {
     }
 
     public ByteArrayInputStream exportAsCsv(UUID userId) throws IOException {
-        return CsvGenerator.generateOperations(operationRepository.findByUserId(userId));
+
+        Map<UUID, String> pdfFileMap = new HashMap<>();
+        for(PDFFile pdfFile: pdfFileRepository.findByUserId(userId)){
+            pdfFileMap.put(pdfFile.getFileId(), pdfFile.getName());
+        }
+
+        List<CsvGenerator.OperationCSV> operationCSVList = new ArrayList<>();
+        for(Operation operation: operationRepository.findByUserId(userId)){
+            operationCSVList.add(new CsvGenerator.OperationCSV(operation, pdfFileMap.get(operation.getFileId()) ));
+        }
+
+        return CsvGenerator.generateOperations(operationCSVList);
     }
 
     public List<Operation> findAllByUserId(UUID userId, int page, int quantity) {
