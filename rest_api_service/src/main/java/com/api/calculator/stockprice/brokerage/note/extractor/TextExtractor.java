@@ -1,4 +1,4 @@
-package com.api.calculator.stockprice.brokerage.note;
+package com.api.calculator.stockprice.brokerage.note.extractor;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;

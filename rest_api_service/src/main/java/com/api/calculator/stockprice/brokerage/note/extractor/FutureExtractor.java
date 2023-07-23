@@ -1,5 +1,6 @@
-package com.api.calculator.stockprice.brokerage.note;
+package com.api.calculator.stockprice.brokerage.note.extractor;
 
+import com.api.calculator.stockprice.brokerage.note.operation.Constants;
 import com.api.calculator.stockprice.ws.data.model.ExtractionError;
 import com.api.calculator.stockprice.ws.data.model.Operation;
 

@@ -1,4 +1,4 @@
-package com.api.calculator.stockprice.brokerage.note;
+package com.api.calculator.stockprice.brokerage.note.operation;
 
 
 import com.api.calculator.stockprice.ws.data.model.Operation;

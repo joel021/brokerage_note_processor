@@ -1,7 +1,7 @@
 package com.api.calculator.stockprice.ws.data.service;
 
-import com.api.calculator.stockprice.brokerage.note.CsvGenerator;
-import com.api.calculator.stockprice.brokerage.note.OperationBalancer;
+import com.api.calculator.stockprice.brokerage.note.operation.CsvGenerator;
+import com.api.calculator.stockprice.brokerage.note.operation.OperationBalancer;
 import com.api.calculator.stockprice.ws.data.repository.OperationRepository;
 import com.api.calculator.stockprice.exceptions.ResourceNotFoundException;
 import com.api.calculator.stockprice.ws.data.model.Operation;

@@ -1,5 +1,9 @@
-package com.api.calculator.stockprice.brokerage.note;
+package com.api.calculator.stockprice.brokerage.note.operation;
 
+import com.api.calculator.stockprice.brokerage.note.extractor.BovespaExtractor;
+import com.api.calculator.stockprice.brokerage.note.extractor.FutureExtractor;
+import com.api.calculator.stockprice.brokerage.note.extractor.OperationExtractor;
+import com.api.calculator.stockprice.brokerage.note.extractor.TextExtractor;
 import com.api.calculator.stockprice.ws.data.model.ExtractionError;
 import com.api.calculator.stockprice.ws.data.model.Operation;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
 package com.api.calculator.stockprice.ws.data.service;
 
-import com.api.calculator.stockprice.brokerage.note.BrokerageOperationsHandler;
+import com.api.calculator.stockprice.brokerage.note.operation.BrokerageOperationsHandler;
 import com.api.calculator.stockprice.ws.data.model.ExtractionError;
 import com.api.calculator.stockprice.ws.data.model.Operation;
 import com.api.calculator.stockprice.ws.data.model.PDFFile;
