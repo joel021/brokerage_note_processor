@@ -101,10 +101,14 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
             throw new InternalException("O arquivo está corrompido ou não foi enviado completamente. A senha também pode" +
                     " estar errada.");
         }
-        new BrokerageOperationsHandler().processPdfFile(this, owner.getId(), fileToSave.getFileId(),
-                this.root.resolve(fileToSave.getName()).toFile().toString(), operationService.findAllByUserId(owner.getId()));
+
         fileToSave.setExtractedAt(new Date(new GregorianCalendar().getTimeInMillis()));
-        return pdfFileRepository.save(fileToSave);
+        PDFFile pdfFileSaved = pdfFileRepository.save(fileToSave);
+
+        new BrokerageOperationsHandler().processPdfFile(this, owner.getId(), pdfFileSaved.getFileId(),
+                this.root.resolve(fileToSave.getName()).toFile().toString(), operationService.findAllByUserId(owner.getId()));
+
+        return pdfFileSaved;
     }
 
     public Map<String, Object> load(UUID authUserId, UUID fileId) throws InternalException, NoSuchElementException, NotAllowedException {

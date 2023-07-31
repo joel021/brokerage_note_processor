@@ -35,14 +35,14 @@ public class OperationService {
 
     public ByteArrayInputStream exportAsCsv(UUID userId) throws IOException {
 
-        Map<UUID, String> pdfFileMap = new HashMap<>();
+        Map<String, String> pdfFileMap = new HashMap<>();
         for(PDFFile pdfFile: pdfFileRepository.findByUserId(userId)){
-            pdfFileMap.put(pdfFile.getFileId(), pdfFile.getName());
+            pdfFileMap.put(pdfFile.getFileId().toString(), pdfFile.getName());
         }
 
         List<CsvGenerator.OperationCSV> operationCSVList = new ArrayList<>();
         for(Operation operation: operationRepository.findByUserId(userId)){
-            operationCSVList.add(new CsvGenerator.OperationCSV(operation, pdfFileMap.get(operation.getFileId()) ));
+            operationCSVList.add(new CsvGenerator.OperationCSV(operation, pdfFileMap.get(operation.getFileId().toString()) ));
         }
 
         return CsvGenerator.generateOperations(operationCSVList);
