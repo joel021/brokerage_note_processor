@@ -9,7 +9,6 @@ import com.api.calculator.stockprice.ws.data.repository.PDFFileRepository;
 import com.api.calculator.stockprice.exceptions.NotAllowedException;
 import com.api.calculator.stockprice.exceptions.ResourceAlreadyExists;
 import com.api.calculator.stockprice.exceptions.ResourceNotFoundException;
-import com.api.calculator.stockprice.model.*;
 import com.api.calculator.stockprice.exceptions.InternalException;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
