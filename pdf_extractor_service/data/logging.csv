@@ -1,0 +1,156 @@
+11:03:02,731 __main__ INFO Extractor Listener Service started.
+11:03:02,741 waitress INFO Serving on http://[::1]:1232
+11:03:02,741 waitress INFO Serving on http://127.0.0.1:1232
+11:06:43,169 __main__ INFO Extractor Listener Service started.
+11:06:43,185 waitress INFO Serving on http://[::1]:1232
+11:06:43,185 waitress INFO Serving on http://127.0.0.1:1232
+13:05:25,730 main ERROR Exception on /brokerage_note [POST]
+Traceback (most recent call last):
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\main.py", line 45, in process_pdf
+    "files": file_service.find_by_user_id(user_info['userId'])
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\persistence\db\file_service.py", line 26, in find_by_user_id
+    cursor = self.mysql.connection.cursor()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 101, in connection
+    ctx.mysql_db = self.connect
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 88, in connect
+    return MySQLdb.connect(**kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\connections.py", line 193, in __init__
+    super().__init__(*args, **kwargs2)
+TypeError: 'str' object cannot be interpreted as an integer
+13:17:38,56 main ERROR Exception on /brokerage_note [POST]
+Traceback (most recent call last):
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\main.py", line 45, in process_pdf
+    "files": file_service.find_by_user_id(user_info['userId'])
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\persistence\db\file_service.py", line 26, in find_by_user_id
+    cursor = self.mysql.connection.cursor()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 101, in connection
+    ctx.mysql_db = self.connect
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 88, in connect
+    return MySQLdb.connect(**kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\connections.py", line 193, in __init__
+    super().__init__(*args, **kwargs2)
+TypeError: 'str' object cannot be interpreted as an integer
+13:22:50,789 __main__ INFO Extractor Listener Service started.
+13:22:50,799 waitress INFO Serving on http://[::1]:1232
+13:22:50,799 waitress INFO Serving on http://127.0.0.1:1232
+13:25:19,621 __main__ INFO Extractor Listener Service started.
+13:25:19,629 waitress INFO Serving on http://[::1]:1232
+13:25:19,629 waitress INFO Serving on http://127.0.0.1:1232
+13:27:57,170 main ERROR Exception on /brokerage_note [POST]
+Traceback (most recent call last):
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\main.py", line 48, in process_pdf
+    "files": file_service.find_by_user_id(user_info['userId'])
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\persistence\db\file_service.py", line 26, in find_by_user_id
+    cursor = self.mysql.connection.cursor()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 101, in connection
+    ctx.mysql_db = self.connect
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 88, in connect
+    return MySQLdb.connect(**kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\connections.py", line 193, in __init__
+    super().__init__(*args, **kwargs2)
+TypeError: 'str' object cannot be interpreted as an integer
+13:30:22,357 __main__ INFO Extractor Listener Service started.
+13:30:22,368 waitress INFO Serving on http://[::1]:1232
+13:30:22,368 waitress INFO Serving on http://127.0.0.1:1232
+13:32:46,533 main ERROR Exception on /brokerage_note [POST]
+Traceback (most recent call last):
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\main.py", line 48, in process_pdf
+    "files": file_service.find_by_user_id(user_info['userId'])
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\persistence\db\file_service.py", line 26, in find_by_user_id
+    cursor = self.mysql.connection.cursor()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 101, in connection
+    ctx.mysql_db = self.connect
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 88, in connect
+    return MySQLdb.connect(**kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\connections.py", line 193, in __init__
+    super().__init__(*args, **kwargs2)
+TypeError: 'str' object cannot be interpreted as an integer
+13:35:55,386 main ERROR Exception on /brokerage_note [POST]
+Traceback (most recent call last):
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\main.py", line 48, in process_pdf
+    "files": file_service.find_by_user_id(user_info['userId'])
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\persistence\db\file_service.py", line 26, in find_by_user_id
+    cursor = self.mysql.connection.cursor()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 101, in connection
+    ctx.mysql_db = self.connect
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 88, in connect
+    return MySQLdb.connect(**kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\connections.py", line 193, in __init__
+    super().__init__(*args, **kwargs2)
+TypeError: 'str' object cannot be interpreted as an integer
+13:38:03,703 main ERROR Exception on /brokerage_note [POST]
+Traceback (most recent call last):
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\main.py", line 48, in process_pdf
+    "files": file_service.find_by_user_id(user_info['userId'])
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\persistence\db\file_service.py", line 26, in find_by_user_id
+    cursor = self.mysql.connection.cursor()
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 101, in connection
+    ctx.mysql_db = self.connect
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\flask_mysqldb\__init__.py", line 88, in connect
+    return MySQLdb.connect(**kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "C:\Users\joel\Documents\GitHub\brokerage_note_processor\pdf_extractor_service\venv\lib\site-packages\MySQLdb\connections.py", line 193, in __init__
+    super().__init__(*args, **kwargs2)
+TypeError: 'str' object cannot be interpreted as an integer
+13:39:17,605 __main__ INFO Extractor Listener Service started.
+13:39:17,613 waitress INFO Serving on http://[::1]:1232
+13:39:17,613 waitress INFO Serving on http://127.0.0.1:1232

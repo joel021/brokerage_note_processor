@@ -47,22 +47,17 @@ public class BrokerageNotesController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (InternalException e) {
-            ArrayList<String> errors = new ArrayList<>();
-            errors.add(e.getMessage());
-            response.put("errors", errors);
-
+            response.put("error", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }catch (ResourceAlreadyExists e) {
-            ArrayList<String> errors = new ArrayList<>();
-            errors.add(e.getMessage());
-            response.put("errors", errors);
-
+            response.put("errors", e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
     }
 
     @PatchMapping("/")
     public ResponseEntity<?> update(@RequestBody Map<String, Object> fileInfo){
+
         HashMap<String, Object> response = new HashMap<>();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Date updatedAt = null;
@@ -77,19 +72,11 @@ public class BrokerageNotesController {
         try {
             pdfFileService.update(user.getId(), pdfFile);
             response.put("fileId", pdfFile.getFileId());
-
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (ResourceNotFoundException e) {
-            ArrayList<String> errors = new ArrayList<>();
-            errors.add(e.getMessage());
-            response.put("errors", errors);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        } catch (NotAllowedException e) {
-            ArrayList<String> errors = new ArrayList<>();
-            errors.add(e.getMessage());
-            response.put("errors", errors);
-
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        } catch (InternalException | NotAllowedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
 
@@ -104,11 +91,10 @@ public class BrokerageNotesController {
                     .contentLength((long) result.get("length"))
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body((InputStream)result.get("inputStream"));
-
-        } catch (InternalException e) {
-            throw new InternalException(e.getMessage());
+        } catch (ResourceNotFoundException | InternalException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
         } catch (NotAllowedException e) {
-            throw new NotAllowedException(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
 
@@ -117,9 +103,8 @@ public class BrokerageNotesController {
         Map<String, Object> respMap = new HashMap<>();
 
         if (page < 0 || quantity < 0){
-            respMap.put("errors", Collections.singletonList("Página (page) e quantidade(quantity) devem ser positivos."));
             ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).contentType(MediaType.APPLICATION_JSON)
-                    .body(respMap);
+                    .body("Página (page) e quantidade(quantity) devem ser positivos.");
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

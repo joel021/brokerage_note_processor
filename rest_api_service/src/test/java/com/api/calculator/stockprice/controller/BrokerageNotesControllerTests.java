@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -50,6 +51,9 @@ public class BrokerageNotesControllerTests {
     @Autowired
     private OperationService operationService;
 
+    @Autowired
+    private Environment environment;
+
     private User owner;
 
     private Map<String, Object> userAuth;
@@ -71,35 +75,56 @@ public class BrokerageNotesControllerTests {
         for(String fileId: pdfFilesIds){
             pdfFileService.deleteById(owner.getId(), UUID.fromString(fileId));
         }
+
+        Files.createDirectories(Paths.get("static/uploads"));
+
+        if (Paths.get("static/uploads").toFile().listFiles() == null){
+            System.out.println("Not files to test.");
+            return;
+        }
+
+        for(File file: Paths.get("static/uploads").toFile().listFiles()){
+            file.delete();
+        }
     }
 
     @Test
     public void dreamUploadAndSave() throws Exception {
 
-        Files.createDirectories(Paths.get("static/pdf_tests/pdfs"));
+        String[] passes = environment.getProperty("test.pdf.stock.broker.pass").split(";");
+        Files.createDirectories(Paths.get("static/pdf_tests/"));
 
-        if (Paths.get("static/pdf_tests/pdfs").toFile().listFiles() == null){
-            return;
+        for(String usersPass: passes) {
+
+            System.out.println(usersPass);
+
+            String[] userPassSplitted = usersPass.split(":");
+            if (Paths.get("static/pdf_tests/"+userPassSplitted[0]).toFile().listFiles() == null){
+                System.out.println("Not files to test with "+userPassSplitted[0]);
+                continue;
+            }
+
+            for(File file: Paths.get("static/pdf_tests/"+userPassSplitted[0]).toFile().listFiles()){
+
+                final MockMultipartFile multipartFile = new MockMultipartFile("file", file.getName(),
+                        "application/pdf", new FileInputStream(file));
+
+                final MvcResult result = mockMvc.perform(
+                        multipart("/api/users/brokerage_notes/")
+                                .file(multipartFile)
+                                .param("password", userPassSplitted[1])
+                                .param("stockBroker", userPassSplitted[0])
+                                .contentType(TestsUtils.CONTENT_TYPE)
+                                .header("authorization", "Bearer " + userAuth.get("token"))
+                ).andExpect(status().isCreated()).andReturn();
+
+                final HashMap<String, Object> responseBody = new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
+                assert(responseBody.get("fileId") != null);
+                pdfFilesIds.add(responseBody.get("fileId").toString());
+            }
         }
-        for(File file: Paths.get("static/pdf_tests/pdfs").toFile().listFiles()){
 
-            final MockMultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "application/pdf", new FileInputStream(file));
-
-            final MvcResult result = mockMvc.perform(
-                    multipart("/api/users/brokerage_notes/")
-                            .file(multipartFile)
-                            .param("password", "aa")
-                            .param("stockBroker", "Corretora")
-                            .contentType(TestsUtils.CONTENT_TYPE)
-                            .header("authorization", "Bearer " + userAuth.get("token"))
-            ).andExpect(status().isCreated()).andReturn();
-
-            final HashMap<String, Object> responseBody = new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
-            assert(responseBody.get("fileId") != null);
-            pdfFilesIds.add(responseBody.get("fileId").toString());
-            assert !operationService.findAllByUserId(owner.getId(), 0, 20).isEmpty();
-        }
-
+        assert !operationService.findAllByUserId(owner.getId(), 0, 20).isEmpty();
     }
 
 }

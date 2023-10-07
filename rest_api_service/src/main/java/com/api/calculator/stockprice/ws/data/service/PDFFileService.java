@@ -40,6 +40,9 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
     @Autowired
     private ExtractionErrorService extractionErrorService;
 
+    @Autowired
+    private PdfExtractorService pdfExtractorService;
+
     public void init() throws InternalException {
         try {
             Files.createDirectories(root);
@@ -48,39 +51,34 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
         }
     }
 
-    public void update(UUID userId, PDFFile pdfFile) throws ResourceNotFoundException, NotAllowedException {
-        Optional<PDFFile> optionalPDFFile = pdfFileRepository.findById(pdfFile.getFileId());
+    private PDFFile findByIdOfUser(UUID fileId, UUID userId) throws ResourceNotFoundException {
 
-        if (optionalPDFFile.isPresent()){
-            PDFFile pdfFileExists = optionalPDFFile.get();
-
-            if (pdfFileExists.getUserId().equals(userId)){
-
-                if (pdfFileExists.getUpdatedAt() == null || (pdfFile.getUpdatedAt() != null
-                        && pdfFileExists.getExtractedAt() == null && pdfFileExists.getDeletedAt() == null
-                        && TimeUnit.DAYS.convert(new Date().getTime() - pdfFileExists.getUpdatedAt().getTime(),
-                        TimeUnit.MILLISECONDS) > 1)){
-
-                    new BrokerageOperationsHandler().processPdfFile(this, userId, pdfFileExists.getFileId(),
-                            this.root.resolve(pdfFileExists.getName()).toFile().toString(), operationService.findAllByUserId(userId));
-                    pdfFile.setUpdatedAt(new Date());
-
-                    pdfFile.setExtractedAt(new Date(System.currentTimeMillis()));
-                } else {
-                    pdfFile.setUpdatedAt(pdfFileExists.getUpdatedAt());
-                }
-
-                pdfFile.setName(pdfFileExists.getName());
-                pdfFile.setExtractedAt(pdfFileExists.getExtractedAt());
-                pdfFile.setDeletedAt(pdfFileExists.getDeletedAt());
-
-                pdfFileRepository.save(pdfFile);
-            } else {
-                throw new NotAllowedException("An internal error occurred. You do not have the right permissions.");
-            }
-        }else{
-            throw new ResourceNotFoundException("File not found with the current id provided.");
+        Optional<PDFFile> optionalPDFFile = pdfFileRepository.findByFileIdAndUserId(fileId,userId);
+        if (optionalPDFFile.isPresent()) {
+            return optionalPDFFile.get();
         }
+        throw new ResourceNotFoundException("File not found with the current id provided.");
+    }
+
+    boolean isAbleToBeExtracted(PDFFile pdfFileExists, PDFFile newPdfFile){
+
+        return pdfFileExists.getUpdatedAt() == null || (newPdfFile.getUpdatedAt() != null
+                && pdfFileExists.getExtractedAt() == null && pdfFileExists.getDeletedAt() == null
+                && TimeUnit.DAYS.convert(new Date().getTime() - pdfFileExists.getUpdatedAt().getTime(),
+                TimeUnit.MILLISECONDS) > 1);
+    }
+
+    public void update(UUID userId, PDFFile pdfFile) throws ResourceNotFoundException, NotAllowedException, InternalException {
+
+        PDFFile pdfFileExists = findByIdOfUser(pdfFile.getFileId(), userId);
+
+        if (isAbleToBeExtracted(pdfFileExists, pdfFile)){
+            pdfExtractorService.requestToExtractAllOfUser(userId, root.toUri().toString());
+        }
+        pdfFile.setUpdatedAt(new Date());
+        pdfFile.setName(pdfFileExists.getName());
+
+        pdfFileRepository.save(pdfFile);
     }
 
     public PDFFile create(User owner, MultipartFile multipartFile, PDFFile fileToSave) throws InternalException, ResourceAlreadyExists {
@@ -93,7 +91,6 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
             InputStream pdfInputStream = multipartFile.getInputStream();
             OutputStream pdfOutputStream = new FileOutputStream(this.root.resolve(fileToSave.getName()).toFile());
             PDDocument pdfDocument = PDDocument.load(pdfInputStream, fileToSave.getPassword());
-            pdfDocument.setAllSecurityToBeRemoved(true);
             pdfDocument.save(pdfOutputStream);
             pdfOutputStream.close();
             pdfDocument.close();
@@ -101,6 +98,7 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
             throw new InternalException("O arquivo está corrompido ou não foi enviado completamente. A senha também pode" +
                     " estar errada.");
         }
+<<<<<<< Updated upstream:rest_api_service/src/main/java/com/api/calculator/stockprice/ws/data/service/PDFFileService.java
 
         fileToSave.setExtractedAt(new Date(new GregorianCalendar().getTimeInMillis()));
         PDFFile pdfFileSaved = pdfFileRepository.save(fileToSave);
@@ -109,57 +107,47 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
                 this.root.resolve(fileToSave.getName()).toFile().toString(), operationService.findAllByUserId(owner.getId()));
 
         return pdfFileSaved;
+=======
+        PDFFile saved = pdfFileRepository.save(fileToSave);
+        pdfExtractorService.requestToExtractAllOfUser(owner.getId(), root.toUri().toString());
+        return saved;
+>>>>>>> Stashed changes:rest_api_service/src/main/java/com/api/calculator/stockprice/service/PDFFileService.java
     }
 
-    public Map<String, Object> load(UUID authUserId, UUID fileId) throws InternalException, NoSuchElementException, NotAllowedException {
+    public Map<String, Object> load(UUID authUserId, UUID fileId)
+            throws InternalException, NoSuchElementException, NotAllowedException, ResourceNotFoundException {
 
-        PDFFile pdfFile = pdfFileRepository.findById(fileId).get();
+        PDFFile pdfFile = findByIdOfUser(fileId, authUserId);
 
-        if (authUserId.equals(pdfFile.getUserId())){
-            try {
-                Path file = root.resolve(pdfFile.getName());
-                UrlResource resource = new UrlResource(file.toUri());
+        try {
+            Path file = root.resolve(pdfFile.getName());
+            UrlResource resource = new UrlResource(file.toUri());
 
-                if (resource.exists() || resource.isReadable()) {
+            if (resource.exists() || resource.isReadable()) {
 
-                    HashMap<String, Object> result = new HashMap<>();
-                    result.put("length", resource.getFile().length());
-                    result.put("inputStream", resource.getInputStream());
-                    return result;
-                } else {
-                    throw new InternalException("Não pude ler o arquivo!");
-                }
-            } catch (IOException e) {
-                throw new InternalException("Houve um problema interno. Perdi seu arquivo. Envie ele novamente, caso queira fazer alguma ação com ele neste sistema.");
+                HashMap<String, Object> result = new HashMap<>();
+                result.put("length", resource.getFile().length());
+                result.put("inputStream", resource.getInputStream());
+                return result;
+            } else {
+                throw new InternalException("Não pude ler o arquivo!");
             }
-        }else{
-            throw new NotAllowedException("Você não pode acessar este arquivo.");
+        } catch (IOException e) {
+            throw new InternalException("Houve um problema interno. Perdi seu arquivo. Envie ele novamente, caso queira fazer alguma ação com ele neste sistema.");
         }
     }
 
     public void deleteById(UUID authUserId, UUID fileId) throws ResourceNotFoundException, NotAllowedException {
 
-        Optional<PDFFile> pdfFileOptional = pdfFileRepository.findById(fileId);
+        PDFFile pdfFile = findByIdOfUser(fileId, authUserId);
 
-        if (pdfFileOptional.isPresent()){
+        try {
+            Resource resource = new UrlResource(root.resolve(pdfFile.getName()).toUri());
+            new File(resource.getURI().getPath()).delete();
+        } catch (IOException ignored) {}
 
-            PDFFile pdfFile = pdfFileOptional.get();
-
-            if(pdfFile.getUserId().equals(authUserId)){
-                try {
-                    Resource resource = new UrlResource(root.resolve(pdfFile.getName()).toUri());
-                    new File(resource.getURI().getPath()).delete();
-                } catch (IOException ignored) {}
-
-                pdfFile.setDeletedAt(new Date());
-                pdfFileRepository.save(pdfFile);
-            }else{
-                throw new NotAllowedException("Você não tem acesso a este arquivo.");
-            }
-        }else{
-            throw new ResourceNotFoundException("Não consigo encontrar um arquivo com essa identificação.");
-        }
-
+        pdfFile.setDeletedAt(new Date());
+        pdfFileRepository.save(pdfFile);
     }
 
     public List<PDFFile> findByUserId(UUID userId, int page, int quatity){

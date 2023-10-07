@@ -1,4 +1,4 @@
-from manager_service.db.extraction_error_service import ExtractionErrorService
+from persistence.db.extraction_error_service import ExtractionErrorService
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_DB, DB_PORT
 from flask_mysqldb import MySQL
 from flask import Flask
