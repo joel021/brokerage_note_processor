@@ -1,5 +1,6 @@
 import os
 
+PROJECT_LOCAL = os.environ["PDF_EXTRACTOR_PROJECT_LOCAL"]
 DATA_PATH = "./data"
 
 DB_HOST = os.environ['DB_HOST']

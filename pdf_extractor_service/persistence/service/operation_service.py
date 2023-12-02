@@ -85,7 +85,7 @@ class OperationService:
         self.mysql.connection.commit()
         cursor.close()
 
-    def save_closed_operations(self, operations:list, user_id:str):
+    def save_operations(self, operations:list, user_id:str):
         cursor = self.mysql.connection.cursor()
 
         for operation in operations:

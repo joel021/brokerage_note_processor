@@ -1,5 +1,5 @@
 from extractor_service.constants import OPTION_MARKET, ACTIVES, CASH_MARKET
-from extractor_service.operations_builder.extractor import Extractor
+from extractor_service.operations_extractor.utils import Utils
 
 from datetime import datetime
 import re
@@ -8,10 +8,10 @@ from numpy import min as np_min
 
 logger = logging.getLogger(__name__)
 
-class BovespaOperationExtractor(Extractor):
+class BovespaOperationUtils(Utils):
 
     def __init__(self, errors):
-        super(BovespaOperationExtractor, self).__init__(errors)
+        super(BovespaOperationUtils, self).__init__(errors)
 
     def get_operations(self, pages: list, file_id):
         for page in pages:

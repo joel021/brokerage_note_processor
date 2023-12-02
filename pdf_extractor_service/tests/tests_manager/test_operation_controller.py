@@ -1,9 +1,9 @@
 import time
 
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_DB, DB_PORT, LOCAL_HOST, PDF_TESTS_PASS
-from persistence.db.file_service import FileService
-from persistence.db.operation_service import OperationService
-from persistence.db.extraction_error_service import ExtractionErrorService
+from persistence.service.file_service import FileService
+from persistence.service.operation_service import OperationService
+from persistence.service.extraction_error_service import ExtractionErrorService
 
 from threading import Thread
 from flask_mysqldb import MySQL

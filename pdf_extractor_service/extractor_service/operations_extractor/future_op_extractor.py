@@ -1,15 +1,15 @@
 from extractor_service.constants import SWINGTRADE, DAYTRADE, FUTURE_MARKET
-from extractor_service.operations_builder.extractor import Extractor
+from extractor_service.operations_extractor.utils import Utils
 
 from datetime import datetime
 import re
 import logging
 logger = logging.getLogger(__name__)
 
-class FutureOperationExtractor(Extractor):
+class FutureOperationUtils(Utils):
 
     def __init__(self, errors):
-        super(FutureOperationExtractor, self).__init__(errors)
+        super(FutureOperationUtils, self).__init__(errors)
 
     def get_operations(self, pages:list, file_id:str):
 

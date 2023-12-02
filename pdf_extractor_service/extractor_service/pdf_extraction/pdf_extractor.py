@@ -4,7 +4,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def retrieve_pages(pdf_uri: str, password: str = None):
+
+def retrieve_pages(pdf_uri: str, password: str = None) -> (list, list):
+
     errors = []
     if not isfile(pdf_uri):
         logger.critical(f"{pdf_uri} not found.")
@@ -27,7 +29,7 @@ def retrieve_pages(pdf_uri: str, password: str = None):
             pdf = pdfium.PdfDocument(pdf_file, autoclose=True)
         except Exception as e:
             errors.append("Erro ao abrir o PDF. A senha pode estar errada.")
-            logger.critical(f"{pdf_uri} can not be opened: "+str(e))
+            logger.critical(f"{pdf_uri} can not be opened: " + str(e))
             pdf_file.close()
             return errors, []
 
@@ -42,3 +44,4 @@ def retrieve_pages(pdf_uri: str, password: str = None):
     pdf_file.close()
 
     return errors, pages
+

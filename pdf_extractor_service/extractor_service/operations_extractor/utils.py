@@ -1,6 +1,6 @@
 from extractor_service.stock_option_util import Options
 
-class Extractor():
+class Utils():
 
     def __init__(self, errors=None):
 
