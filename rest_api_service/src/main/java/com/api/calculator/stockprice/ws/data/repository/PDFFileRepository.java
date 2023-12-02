@@ -14,9 +14,7 @@ public interface PDFFileRepository extends JpaRepository<PDFFile, UUID> {
 
     long countByUserId(UUID userId);
 
-<<<<<<< Updated upstream:rest_api_service/src/main/java/com/api/calculator/stockprice/ws/data/repository/PDFFileRepository.java
     List<PDFFile> findByUserId(UUID userId);
-=======
+
     Optional<PDFFile> findByFileIdAndUserId(UUID fileId, UUID userId);
->>>>>>> Stashed changes:rest_api_service/src/main/java/com/api/calculator/stockprice/repository/PDFFileRepository.java
 }
