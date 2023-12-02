@@ -35,6 +35,7 @@ public class BrokerageOperationsHandler {
     }
 
     public List<Operation> extractAllOperations(String fileUri, UUID fileId) throws IOException {
+
         TextExtractor textExtractor = new TextExtractor();
         BovespaExtractor bovespaExtractor = new BovespaExtractor();
         FutureExtractor futureExtractor = new FutureExtractor();

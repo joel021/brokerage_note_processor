@@ -1,4 +1,4 @@
-package com.api.calculator.stockprice.service;
+package com.api.calculator.stockprice.ws.data.service;
 
 import com.api.calculator.stockprice.exceptions.InternalException;
 import com.fasterxml.jackson.databind.ObjectMapper;

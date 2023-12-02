@@ -98,20 +98,8 @@ public class PDFFileService implements BrokerageOperationsHandler.Callback {
             throw new InternalException("O arquivo está corrompido ou não foi enviado completamente. A senha também pode" +
                     " estar errada.");
         }
-<<<<<<< Updated upstream:rest_api_service/src/main/java/com/api/calculator/stockprice/ws/data/service/PDFFileService.java
 
-        fileToSave.setExtractedAt(new Date(new GregorianCalendar().getTimeInMillis()));
-        PDFFile pdfFileSaved = pdfFileRepository.save(fileToSave);
-
-        new BrokerageOperationsHandler().processPdfFile(this, owner.getId(), pdfFileSaved.getFileId(),
-                this.root.resolve(fileToSave.getName()).toFile().toString(), operationService.findAllByUserId(owner.getId()));
-
-        return pdfFileSaved;
-=======
-        PDFFile saved = pdfFileRepository.save(fileToSave);
-        pdfExtractorService.requestToExtractAllOfUser(owner.getId(), root.toUri().toString());
-        return saved;
->>>>>>> Stashed changes:rest_api_service/src/main/java/com/api/calculator/stockprice/service/PDFFileService.java
+        return pdfFileRepository.save(fileToSave);
     }
 
     public Map<String, Object> load(UUID authUserId, UUID fileId)
