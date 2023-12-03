@@ -27,4 +27,4 @@ jobs:
       - name: Unit Tests
         run: |
           cd rest_api_service
-          mvn clean package
+          mvn clean package -Pdev

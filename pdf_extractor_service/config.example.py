@@ -1,3 +1,5 @@
+PROJECT_LOCAL = "/home/joel/"
+
 DATA_PATH = "./data"
 
 DB_HOST = "localhost"

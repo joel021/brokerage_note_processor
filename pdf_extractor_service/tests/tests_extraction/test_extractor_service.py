@@ -1,5 +1,5 @@
 from config import PDF_TESTS_PASS
-from extractor_service.operations_builder.operations_extractor import OperationsExtractor
+from extractor_service.operations_extractor.operations_extractor import OperationsExtractor
 
 import uuid
 import unittest

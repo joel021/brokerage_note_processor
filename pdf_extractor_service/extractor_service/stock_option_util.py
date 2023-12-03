@@ -1,4 +1,6 @@
 import datetime
+import re
+
 from pandas import date_range, to_datetime
 
 from extractor_service.constants import ACTIVES
@@ -57,20 +59,8 @@ class Options():
 
     def option_letter(self, option_name:str):
 
-        for active in ACTIVES.keys():
-            if active[0:-1] in option_name or "L" + active[0:-2] in option_name:
-                len_ = len(active)
-                return option_name[len_-1:len_]
+        results = re.findall(r"[A-Z]{1}[0-9]{1}[0-9]*", option_name)
+        if len(results) > 0:
+            return results[0][0]
 
-        raise Exception(f"Not active match to the current option: {option_name}")
-
-if __name__ == "__main__":
-
-    option_util = Options()
-    print(option_util.expiration_date({
-        "name": "VALEC884",
-        "date": "08-02-2023",
-        "type": Options.CALL
-    }))
-
-    print(option_util.option_letter("VALEC884"))
+        return None

@@ -1,4 +1,4 @@
-from extractor_service.operations_builder.operations_balancer import OperationsBalancer
+from extractor_service.operations_extractor.operations_balancer import OperationsBalancer
 from extractor_service.constants import ACTIVE, SWINGTRADE, CASH_MARKET, SOLD, BOUGHT
 
 import unittest

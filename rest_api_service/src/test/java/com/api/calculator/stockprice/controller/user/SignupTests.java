@@ -4,9 +4,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.api.calculator.stockprice.TestsUtils;
-import com.api.calculator.stockprice.model.Role;
-import com.api.calculator.stockprice.model.User;
-import com.api.calculator.stockprice.repository.UserRepository;
+import com.api.calculator.stockprice.ws.data.model.Role;
+import com.api.calculator.stockprice.ws.data.model.User;
+import com.api.calculator.stockprice.ws.data.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;

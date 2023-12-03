@@ -1,7 +1,8 @@
 package com.api.calculator.stockprice.service;
 
-import com.api.calculator.stockprice.model.Operation;
-import com.api.calculator.stockprice.repository.OperationRepository;
+import com.api.calculator.stockprice.ws.data.model.Operation;
+import com.api.calculator.stockprice.ws.data.repository.OperationRepository;
+import com.api.calculator.stockprice.ws.data.service.OperationService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

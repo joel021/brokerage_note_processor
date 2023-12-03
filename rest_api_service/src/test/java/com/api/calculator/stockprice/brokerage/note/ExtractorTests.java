@@ -1,8 +1,12 @@
 package com.api.calculator.stockprice.brokerage.note;
 
 import com.api.calculator.stockprice.PDFCheckerTestUtil;
-import com.api.calculator.stockprice.model.ExtractionError;
-import com.api.calculator.stockprice.model.Operation;
+import com.api.calculator.stockprice.brokerage.note.operation.Constants;
+import com.api.calculator.stockprice.brokerage.note.extractor.BovespaExtractor;
+import com.api.calculator.stockprice.brokerage.note.extractor.FutureExtractor;
+import com.api.calculator.stockprice.brokerage.note.extractor.TextExtractor;
+import com.api.calculator.stockprice.ws.data.model.ExtractionError;
+import com.api.calculator.stockprice.ws.data.model.Operation;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;

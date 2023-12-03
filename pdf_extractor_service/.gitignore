@@ -6,5 +6,4 @@ venv
 .idea
 **/__pycache__
 **.idea
-config.py
 ./data/logging.csv

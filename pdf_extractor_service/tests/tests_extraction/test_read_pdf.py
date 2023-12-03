@@ -2,7 +2,7 @@ import os.path
 import unittest
 import glob
 
-from extractor_service.operations_builder.pdf_utils import retrieve_pages
+from extractor_service.pdf_extraction.pdf_extractor import retrieve_pages
 from config import PDF_TESTS_PASS
 
 class TestPdfOpenner(unittest.TestCase):

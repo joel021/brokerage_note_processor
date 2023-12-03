@@ -1,9 +1,9 @@
 import time
 
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_DB, DB_PORT, LOCAL_HOST, PDF_TESTS_PASS
-from manager_service.db.file_service import FileService
-from manager_service.db.operation_service import OperationService
-from manager_service.db.extraction_error_service import ExtractionErrorService
+from persistence.service.file_service import FileService
+from persistence.service.operation_service import OperationService
+from persistence.service.extraction_error_service import ExtractionErrorService
 
 from threading import Thread
 from flask_mysqldb import MySQL
@@ -111,7 +111,7 @@ class TestOperationController(unittest.TestCase):
             for file in self.files:
                 self.extraction_error_service.delete_by_file_id(file['file_id'])
 def start(port=None):
-    from manager_service.main_file_stack_hundler import PDFsStackMain
+    from persistence.main_file_stack_hundler import PDFsStackMain
     clicker_service = PDFsStackMain()
     clicker_service.main(port)
 
