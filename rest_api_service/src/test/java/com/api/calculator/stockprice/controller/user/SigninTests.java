@@ -2,10 +2,10 @@ package com.api.calculator.stockprice.controller.user;
 
 import com.api.calculator.stockprice.TestsUtils;
 import com.api.calculator.stockprice.exceptions.ResourceAlreadyExists;
-import com.api.calculator.stockprice.ws.data.model.Role;
-import com.api.calculator.stockprice.ws.data.model.User;
-import com.api.calculator.stockprice.ws.data.repository.UserRepository;
-import com.api.calculator.stockprice.ws.data.service.user.AuthService;
+import com.api.calculator.stockprice.api.persistence.model.Role;
+import com.api.calculator.stockprice.api.persistence.model.User;
+import com.api.calculator.stockprice.api.persistence.repository.UserRepository;
+import com.api.calculator.stockprice.api.persistence.service.user.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
 import org.junit.After;

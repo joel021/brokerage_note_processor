@@ -22,6 +22,25 @@ public class PDFCheckerTestUtil {
         }
         return records;
     }
+
+    public String readPdfContentText(String fileUri) {
+
+        BufferedReader bufferedReader = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            bufferedReader = new BufferedReader(new FileReader(fileUri));
+            String line;
+
+            while((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return stringBuilder.toString();
+    }
+
     private String escapeSpecialCharacters(String data) {
         if (data == null){
             return "";
@@ -39,7 +58,9 @@ public class PDFCheckerTestUtil {
                 .map(this::escapeSpecialCharacters)
                 .collect(Collectors.joining(","));
     }
+
     public void createCheckerFile(String fileUri, List<String[]> dataLines) throws IOException {
+
         File csvOutputFile = new File(fileUri);
         if(csvOutputFile.exists()){
             csvOutputFile.delete();
@@ -48,6 +69,22 @@ public class PDFCheckerTestUtil {
             dataLines.stream()
                     .map(this::convertToCSV)
                     .forEach(pw::println);
+        }
+    }
+
+    public void saveTextFile(String uri, String content) {
+
+        File textOutputFile = new File(uri);
+        if (textOutputFile.exists()) {
+            textOutputFile.delete();
+        }
+
+        try {
+            PrintWriter printWriter = new PrintWriter(textOutputFile);
+            printWriter.println(content);
+            printWriter.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

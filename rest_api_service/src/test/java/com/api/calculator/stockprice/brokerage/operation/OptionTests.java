@@ -1,6 +1,6 @@
 package com.api.calculator.stockprice.brokerage.operation;
 
-import com.api.calculator.stockprice.brokerage.note.operation.Options;
+import com.api.calculator.stockprice.brokerage.extractor.operation.Options;
 import com.api.calculator.stockprice.exceptions.ResourceNotFoundException;
 import org.junit.Test;
 
